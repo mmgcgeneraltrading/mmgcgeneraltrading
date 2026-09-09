@@ -1,0 +1,72 @@
+@media (max-width: 720px){
+  html{scroll-padding-top:76px}
+  body{font-size:15px;line-height:1.5;overflow-x:hidden}
+  .wrap{width:min(92%,1180px)}
+  header{position:sticky;top:0}
+  .nav{min-height:68px;gap:10px}
+  .brand{min-width:0;gap:8px}
+  .brand img{width:48px!important;height:38px!important}
+  .brand span{min-width:0}
+  .brand b{font-size:11.5px!important;white-space:nowrap}
+  .brand small{display:none!important}
+  .nav-toggle-label{display:block!important;flex:0 0 auto}
+  .main-nav{top:68px!important;left:-4%!important;right:-4%!important;border-radius:0 0 14px 14px!important;padding:10px 4%!important;max-height:calc(100vh - 68px);overflow:auto}
+  .main-nav a{font-size:15px!important;padding:13px 12px!important;border-bottom:1px solid var(--line)}
+  .main-nav a:last-child{border-bottom:0}
+  .pill{text-align:center}
+
+  .hero{padding:28px 0 30px!important}
+  .hero-grid{grid-template-columns:1fr!important;gap:20px!important}
+  .hero h1{font-size:clamp(32px,9.5vw,42px)!important;line-height:1.04!important;letter-spacing:-1px!important}
+  .lead{font-size:15.5px!important;line-height:1.5!important;margin:14px 0 12px!important}
+  .hero-points{gap:6px!important;margin-bottom:14px!important}
+  .hero-points span{font-size:10.5px!important;padding:6px 9px!important}
+  .hero-actions,.actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important}
+  .hero-actions .btn,.actions .btn,.form-actions .btn,.support-actions .btn,.supplier-actions .btn{width:100%;text-align:center;padding:12px 14px!important}
+  .hero-brand-card{padding:16px!important;border-radius:16px!important}
+  .logo-stage{min-height:100px!important;margin-bottom:10px!important}
+  .logo-stage img{width:150px!important;max-height:90px!important}
+  .hero-brand-card h3{font-size:17px!important}
+  .hero-contact-mini a{font-size:12px!important;padding:6px 0!important;word-break:break-word}
+
+  .section{padding:46px 0!important}
+  h2{font-size:clamp(28px,8vw,36px)!important;line-height:1.08!important;margin-bottom:14px!important}
+  h3{line-height:1.2}
+  .eyebrow{font-size:10px!important;letter-spacing:1.4px!important}
+  .section-intro{font-size:15px!important}
+  .intro-grid,.vision-grid,.tender-list,.visual-services,.portfolio-grid,.industries-grid,.why-grid,.steps,.footer-grid,.form-row{grid-template-columns:1fr!important}
+  .about-grid,.tender-grid,.quote-grid,.industries-grid-wrap,.split{grid-template-columns:1fr!important;gap:26px!important}
+  .image-panel img{min-height:0!important;height:auto!important;border-radius:16px!important}
+  .visual-services article img{height:180px!important}
+  .visual-services article>div,.portfolio-grid article,.why-grid article,.steps div,.industries-grid>div{padding:17px!important}
+  .tender-list span{font-size:12.5px!important}
+  .tender-method{padding:17px!important}
+  .method-step{grid-template-columns:38px 1fr!important;gap:10px!important;padding:12px 0!important}
+  .method-step>b{width:34px!important;height:34px!important}
+  .profile-cta{padding:42px 0!important}
+  .profile-card{grid-template-columns:1fr!important;padding:18px!important;gap:16px!important}
+  .profile-logo{width:90px!important;height:90px!important}
+  .profile-card>.btn{grid-column:auto!important;width:100%;text-align:center}
+  .quote-section{padding:48px 0!important}
+  .quote-form{padding:17px!important;border-radius:16px!important}
+  .quote-form input,.quote-form select,.quote-form textarea{font-size:16px!important;padding:12px!important}
+  .direct-contact a{word-break:break-word}
+  .facts p{display:grid!important;gap:4px!important}
+  .facts b{text-align:left!important}
+  footer{padding:34px 0 72px!important}
+  .footer-grid{gap:22px!important}
+  .footer-brand img{width:62px!important;height:48px!important}
+  .floating-whatsapp{right:12px!important;bottom:12px!important;padding:11px 14px!important;font-size:13px!important}
+}
+
+@media (max-width: 420px){
+  .wrap{width:94%}
+  .brand b{font-size:10.5px!important}
+  .brand img{width:44px!important}
+  .hero h1{font-size:31px!important}
+  h2{font-size:27px!important}
+}
+
+@media (hover:none){
+  .btn:hover{transform:none!important;box-shadow:none!important}
+}
