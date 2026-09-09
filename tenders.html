@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Available public tenders, RFQs and procurement opportunities in Lesotho with MMGC summaries, deadline alerts, costing and bid support.">
+  <meta name="description" content="Available public tenders, RFQs and procurement opportunities in Lesotho with MMGC tender snapshots, deadline alerts, costing tools and bid support.">
   <meta name="theme-color" content="#0b2f57">
   <title>Available Tenders in Lesotho | MMGC Procurement Desk</title>
   <link rel="icon" href="assets/mmgc-logo.png">
@@ -24,14 +24,13 @@
     <nav class="main-nav">
       <a href="index.html">Home</a>
       <a class="active-desk" href="tenders.html">Tender Desk</a>
-      <a href="index.html#tender">Tender Support</a>
-      <a href="index.html#services">Services</a>
-      <a href="docs/MMGC-General-Trading-Company-Profile-2026.pdf">Company Profile</a>
+      <a href="tender-calculator.html">Cost Calculator</a>
+      <a href="suppliers.html">Suppliers</a>
+      <a href="past-tenders.html">Past Tenders</a>
       <a class="pill" href="index.html#quote">Request a Quote</a>
     </nav>
   </div>
 </header>
-
 <div id="procurement-alerts" class="procurement-alerts" aria-live="polite"></div>
 
 <main>
@@ -40,12 +39,23 @@
     <div>
       <p class="eyebrow">MMGC PROCUREMENT DESK · LESOTHO</p>
       <h1>Available Tenders & RFQs</h1>
-      <p>Current opportunities published by MMGC with simple summaries, important dates and links to the issuing authority.</p>
+      <p>Browse current opportunities first. Each listing can open an MMGC Tender Snapshot showing the deadline, document-fee status, bid-security status, site-visit information, lots and bidder checklist before you continue to the official source.</p>
     </div>
     <div class="listing-intro-actions">
-      <a class="btn primary" href="#costing">Cost a Tender</a>
+      <a class="btn primary" href="tender-calculator.html">Open Cost Calculator</a>
       <a class="btn whatsapp" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20help%20with%20a%20tender." target="_blank" rel="noopener">Get MMGC Help</a>
     </div>
+  </div>
+</section>
+
+<section class="desk-tools-bar" aria-label="Tender Desk tools">
+  <div class="wrap desk-tools-scroll">
+    <a href="checklists.html"><b>✓</b><span>Tender Checklists<small>Download & use</small></span></a>
+    <a href="tender-calculator.html"><b>M</b><span>Cost Calculator<small>Build your estimate</small></span></a>
+    <a href="issuers.html"><b>🏛</b><span>Issuers<small>Browse by authority</small></span></a>
+    <a href="categories.html"><b>▦</b><span>Categories<small>Goods · Services · Works</small></span></a>
+    <a href="suppliers.html"><b>↔</b><span>Supplier Marketplace<small>Buyers & suppliers</small></span></a>
+    <a href="past-tenders.html"><b>◷</b><span>Past Tenders<small>Archive</small></span></a>
   </div>
 </section>
 
@@ -53,7 +63,7 @@
   <div class="wrap">
     <div class="listing-tools">
       <div class="listing-stat"><strong id="open-count">0</strong><span>Open / current opportunities</span></div>
-      <label class="tender-search"><span>Search tenders</span><input id="tender-search" type="search" placeholder="Issuer, title, category, item..." autocomplete="off"></label>
+      <label class="tender-search"><span>Search tenders</span><input id="tender-search" type="search" placeholder="Issuer, title, category, reference, item..." autocomplete="off"></label>
     </div>
     <div class="filter-scroll" id="tender-filters" aria-label="Filter tenders">
       <button class="filter-chip active" data-filter="all">All</button>
@@ -63,63 +73,9 @@
       <button class="filter-chip" data-filter="goods">Goods</button>
       <button class="filter-chip" data-filter="services">Services</button>
       <button class="filter-chip" data-filter="works">Works</button>
+      <button class="filter-chip" data-filter="ict">ICT</button>
     </div>
-
-    <div class="tender-cards" id="tender-cards">
-      <article class="tender-card urgent" data-tender-id="finance-epayment" data-close="2026-09-10T23:59:59+02:00" data-type="major services" data-issuer="ministry finance cafi ict software">
-        <div class="card-top"><span class="status open">MAJOR TENDER</span><span class="deadline">Closes 10 Sep 2026</span></div>
-        <p class="issuer">Ministry of Finance & Development Planning / CAFI</p>
-        <h3>Lesotho Government e-Payment Gateway</h3>
-        <p>Software development and implementation services for the Government e-Payment Gateway.</p>
-        <div class="meta"><span>ICT / Software</span><span>Services</span><span>CAFI-WB-NC01</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=finance-epayment">View MMGC Summary</a><a class="cost-link" href="#costing">Costing Help</a></div>
-      </article>
-
-      <article class="tender-card urgent" data-tender-id="roadfund-promotional" data-close="2026-09-11T23:59:59+02:00" data-type="major goods" data-issuer="road fund promotional materials goods">
-        <div class="card-top"><span class="status open">SUPPLY TENDER</span><span class="deadline">Closes 11 Sep 2026</span></div>
-        <p class="issuer">Road Fund Lesotho</p>
-        <h3>Supply & Delivery of 2027 Promotional Materials</h3>
-        <p>Supply opportunity for promotional materials. An addendum has been published by the issuer.</p>
-        <div class="meta"><span>Goods</span><span>Addendum</span><span>Promotional Materials</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=roadfund-promotional">View MMGC Summary</a><a class="cost-link" href="#costing">Find Product Costs</a></div>
-      </article>
-
-      <article class="tender-card" data-tender-id="lhda-water" data-close="2026-09-15T12:00:00+02:00" data-type="rfq services" data-issuer="lhda water samples rfq">
-        <div class="card-top"><span class="status open">RFQ</span><span class="deadline">15 Sep 2026 · 12:00</span></div>
-        <p class="issuer">Lesotho Highlands Development Authority</p>
-        <h3>RFQ for Water Samples</h3>
-        <p>Current request for quotation advertised by LHDA. Confirm the full scope and mandatory documentation with the issuer.</p>
-        <div class="meta"><span>RFQ</span><span>Services / Supplies</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=lhda-water">View MMGC Summary</a><a class="cost-link" href="#costing">Costing Help</a></div>
-      </article>
-
-      <article class="tender-card featured" data-tender-id="lhda-computers" data-close="2026-09-17T12:00:00+02:00" data-type="rfq goods" data-issuer="lhda computers laptops hp elitebook ict">
-        <div class="card-top"><span class="status open">RFQ · 2 LOTS</span><span class="deadline">17 Sep 2026 · 12:00</span></div>
-        <p class="issuer">Lesotho Highlands Development Authority</p>
-        <h3>RFQ for Purchasing of Computers</h3>
-        <p>Supply of HP EliteBook 6 G-series laptops in two lots with specified hardware, Windows 11 Pro and accessories.</p>
-        <div class="meta"><span>ICT Equipment</span><span>Goods</span><span>2 Lots</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=lhda-computers">View Lots & Summary</a><a class="cost-link" href="#costing">Find Laptop Costs</a></div>
-      </article>
-
-      <article class="tender-card" data-tender-id="finance-telematics" data-close="2026-09-22T23:59:59+02:00" data-type="major services" data-issuer="ministry finance telematics technology services">
-        <div class="card-top"><span class="status open">MAJOR TENDER</span><span class="deadline">Closes 22 Sep 2026</span></div>
-        <p class="issuer">Ministry of Finance & Development Planning</p>
-        <h3>Telematics Tender</h3>
-        <p>Technology/services procurement listed by the Ministry of Finance. Review the complete bidding document before pricing.</p>
-        <div class="meta"><span>Technology</span><span>Services</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=finance-telematics">View MMGC Summary</a><a class="cost-link" href="#costing">Costing Help</a></div>
-      </article>
-
-      <article class="tender-card" data-tender-id="gov-production-equipment" data-type="major goods" data-issuer="government lesotho ltv production broadcast equipment">
-        <div class="card-top"><span class="status current">CURRENT NOTICE</span><span class="deadline">Verify deadline</span></div>
-        <p class="issuer">Government of Lesotho</p>
-        <h3>LTV Supply & Delivery of Production Equipment</h3>
-        <p>Public supply tender for production and broadcast equipment. The official document contains the full specifications and closing information.</p>
-        <div class="meta"><span>Broadcast / ICT</span><span>Goods</span></div>
-        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=gov-production-equipment">View MMGC Summary</a><a class="cost-link" href="#costing">Find Product Costs</a></div>
-      </article>
-    </div>
+    <div class="tender-cards" id="tender-cards"></div>
     <p id="no-open-tenders" class="no-open-tenders" hidden>No tender matches your current filter or search.</p>
   </div>
 </section>
@@ -129,22 +85,25 @@
   <div class="wrap desk-story-grid">
     <div>
       <p class="eyebrow light">ONE-STOP TENDER SUPPORT</p>
-      <h2>From the advert to the submission package.</h2>
-      <p>After finding an opportunity above, MMGC can help you understand what is needed, identify important dates, source products, estimate costs and organise the bid response.</p>
+      <h2>From advert to submission package.</h2>
+      <p>Use the Tender Desk to move through the full procurement cycle: find the opportunity, understand what is required, check deadlines and compulsory activities, cost the requirement, prepare the response and proof the final package.</p>
       <div class="desk-tags"><span>Threshold Procurement</span><span>RFQs</span><span>Formal Tenders</span><span>Goods</span><span>Services</span><span>Works</span></div>
     </div>
     <div class="journey-mini"><div><b>01</b><span>Find</span></div><div><b>02</b><span>Understand</span></div><div><b>03</b><span>Check</span></div><div><b>04</b><span>Cost</span></div><div><b>05</b><span>Prepare</span></div><div><b>06</b><span>Proof & Submit</span></div></div>
   </div>
 </section>
 
-<section class="desk-section procurement-levels">
+<section class="desk-section" id="tender-tools">
   <div class="wrap">
-    <p class="eyebrow">PROCUREMENT LEVELS</p>
-    <h2>Support for small purchases through major tenders</h2>
-    <div class="level-grid">
-      <article><span>FAST PURCHASES</span><h3>Threshold Procurement</h3><p>Smaller purchases and quotation requests where suppliers normally respond with prices and core compliance documents.</p></article>
-      <article class="level-feature"><span>COMMON</span><h3>RFQs & Quotations</h3><p>Defined goods or services with specifications, quantities, submission instructions and a stated deadline.</p></article>
-      <article><span>FORMAL BIDS</span><h3>Major Tenders</h3><p>Detailed procurement that may require bidding documents, securities, methodologies, personnel, programmes, site visits and BOQs.</p></article>
+    <p class="eyebrow">TENDER INTELLIGENCE TOOLS</p>
+    <h2>Everything around the tender, not only the advert</h2>
+    <div class="feature-grid">
+      <article><span>SNAPSHOT</span><h3>Tender Snapshot</h3><p>Deadline, tender-document fee, bid security, site visit, pre-bid meeting, reference and lots in one place.</p></article>
+      <article><span>TIME</span><h3>Days Remaining</h3><p>Live countdowns automatically show how many days remain and mark opportunities urgent within two days.</p></article>
+      <article><span>SHARE</span><h3>WhatsApp Sharing</h3><p>Send the tender title, deadline and MMGC summary link to a partner, supplier or team member in one tap.</p></article>
+      <article><span>CALENDAR</span><h3>Add Deadline to Calendar</h3><p>Download an iCalendar event for tender closing dates so the deadline can be added to a phone or desktop calendar.</p></article>
+      <article><span>CHECKLIST</span><h3>Downloadable Checklists</h3><p>General, goods, services and works checklists are available to download and use during bid preparation.</p></article>
+      <article><span>MARKET</span><h3>Supplier Marketplace</h3><p>See what MMGC is sourcing and allow suppliers to submit capability and pricing information to the procurement desk.</p></article>
     </div>
   </div>
 </section>
@@ -153,10 +112,10 @@
   <div class="wrap costing-grid">
     <div>
       <p class="eyebrow light">MMGC COSTING DESK</p>
-      <h2>Know the likely cost before you price the bid.</h2>
-      <p>Where the bidding document is publicly available, MMGC can work from the actual specification and seek strong market evidence from manufacturers, authorised distributors and established suppliers. If the bidding document must be purchased, costing begins once the complete document is available.</p>
-      <div class="costing-features"><span>Product price research</span><span>Supplier comparison</span><span>BOQ costing assistance</span><span>Freight & delivery allowances</span><span>VAT / commercial checks</span><span>Pricing schedule support</span></div>
-      <a class="btn gold large" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20a%20tender%20cost%20estimate." target="_blank" rel="noopener">Request Cost Estimate</a>
+      <h2>Build the likely cost before you set the tender price.</h2>
+      <p>Where the bidding document is available, MMGC can work from the actual specification and seek strong market evidence from manufacturers, authorised distributors and established suppliers. If the bidding document must be purchased, costing begins once the complete document is available.</p>
+      <div class="costing-features"><span>Line-item costing</span><span>Supplier comparison</span><span>Transport & delivery</span><span>Overheads & contingency</span><span>Markup & VAT</span><span>Bid-security cash estimate</span></div>
+      <a class="btn gold large" href="tender-calculator.html">Open Full Tender Cost Calculator</a>
     </div>
     <aside class="caution-card"><b>IMPORTANT BOQ CAUTION</b><h3>Final arithmetic remains the bidder's responsibility.</h3><p>For selected tenders MMGC may assist with BOQ review, pricing and calculations. The client/bidder remains responsible for independently proofing and confirming final BOQ totals, quantities, arithmetic and the tendered amount before submission.</p></aside>
   </div>
@@ -170,13 +129,18 @@
   </div>
 </section>
 
-<section class="supplier-zone" id="supplier-request"><div class="wrap"><p class="eyebrow">SUPPLY TO MMGC</p><h2>Current MMGC sourcing requests</h2><p>Suppliers and authorised resellers can quote directly to our procurement desk.</p><div class="supplier-products"><article><span>01</span><h3>HP Color LaserJet Enterprise Flow MFP 8801z</h3><p><b>Product:</b> 9S183A · <b>Qty:</b> 1</p><a class="summary-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20can%20quote%20HP%208801z%209S183A." target="_blank">Submit Supplier Quotation →</a></article><article><span>02</span><h3>HP DesignJet T850 36-inch Multifunction Printer</h3><p><b>Product:</b> 2Y9H2A · <b>Qty:</b> 1</p><a class="summary-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20can%20quote%20HP%20DesignJet%20T850%202Y9H2A." target="_blank">Submit Supplier Quotation →</a></article></div></div></section>
+<section class="supplier-zone" id="supplier-request">
+  <div class="wrap">
+    <div class="desk-heading"><div><p class="eyebrow">SUPPLY TO MMGC</p><h2>Current MMGC sourcing requests</h2><p>Suppliers and authorised resellers can quote directly to the MMGC Procurement Desk.</p></div><a class="btn primary" href="suppliers.html">Open Supplier Marketplace</a></div>
+    <div class="supplier-products"><article><span>01</span><h3>HP Color LaserJet Enterprise Flow MFP 8801z</h3><p><b>Product:</b> 9S183A · <b>Qty:</b> 1</p><a class="summary-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20can%20quote%20HP%208801z%209S183A." target="_blank">Submit Supplier Quotation →</a></article><article><span>02</span><h3>HP DesignJet T850 36-inch Multifunction Printer</h3><p><b>Product:</b> 2Y9H2A · <b>Qty:</b> 1</p><a class="summary-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20can%20quote%20HP%20DesignJet%20T850%202Y9H2A." target="_blank">Submit Supplier Quotation →</a></article></div>
+  </div>
+</section>
 
-<section class="desk-links-section"><div class="wrap"><h2>MMGC quick links</h2><div class="more-links"><a href="index.html"><b>Company Website</b><span>About MMGC and all services →</span></a><a href="index.html#tender"><b>Tender Support</b><span>Our procurement support capability →</span></a><a href="index.html#quote"><b>Request a Quotation</b><span>Send a structured enquiry →</span></a><a href="docs/MMGC-General-Trading-Company-Profile-2026.pdf"><b>Company Profile</b><span>Download capability statement →</span></a></div></div></section>
-<section class="verification-note"><div class="wrap"><strong>Public information notice:</strong> MMGC is not the issuing authority for advertised public tenders. Always verify the original document, addenda, eligibility, fees, bid security, site visits and submission instructions with the issuer.</div></section>
+<section class="verification-note"><div class="wrap"><strong>Public information notice:</strong> MMGC General Trading is not the issuing authority for advertised public tenders. Always verify the original bidding document, addenda, eligibility, document fees, bid security, compulsory site visits, pre-bid meetings and submission instructions with the issuing authority.</div></section>
 </main>
 
-<nav class="mobile-dock"><a href="#opportunities"><span>⌕</span>Tenders</a><a href="#costing"><span>M</span>Costing</a><a class="dock-main" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20tender%20support." target="_blank"><span>✆</span>Help</a><a href="#support"><span>✓</span>Support</a><a href="index.html"><span>⌂</span>MMGC</a></nav>
-<footer><div class="wrap footer-grid"><div class="footer-brand"><img src="assets/mmgc-logo.png" alt="MMGC"><div><b>MMGC GENERAL TRADING</b><span>Procurement · Tender Support · General Supplies</span></div></div><div><h4>Tender Desk</h4><a href="#opportunities">Available Tenders</a><a href="#costing">Costing Desk</a><a href="#support">Bid Support</a></div><div><h4>Contact</h4><a href="tel:+26622331570">+266 2233 1570</a><a href="tel:+26658311808">+266 5831 1808</a><a href="mailto:mmgcgeneraltrading@gmail.com">Email MMGC</a></div><div><h4>Navigate</h4><a href="index.html">Company Website</a><a href="#supplier-request">Supply to MMGC</a></div></div><div class="wrap footer-bottom">© 2026 MMGC General Trading · Maseru, Kingdom of Lesotho</div></footer>
+<nav class="mobile-dock"><a href="#opportunities"><span>⌕</span>Tenders</a><a href="tender-calculator.html"><span>M</span>Costing</a><a class="dock-main" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20tender%20support." target="_blank"><span>✆</span>Help</a><a href="checklists.html"><span>✓</span>Checklist</a><a href="suppliers.html"><span>↔</span>Suppliers</a></nav>
+<footer><div class="wrap footer-grid"><div class="footer-brand"><img src="assets/mmgc-logo.png" alt="MMGC"><div><b>MMGC GENERAL TRADING</b><span>Procurement · Tender Support · General Supplies</span></div></div><div><h4>Tender Desk</h4><a href="#opportunities">Available Tenders</a><a href="past-tenders.html">Past Tenders</a><a href="checklists.html">Checklists</a></div><div><h4>Tools</h4><a href="tender-calculator.html">Cost Calculator</a><a href="issuers.html">Issuers</a><a href="categories.html">Categories</a><a href="suppliers.html">Supplier Marketplace</a></div><div><h4>Contact</h4><a href="tel:+26622331570">+266 2233 1570</a><a href="tel:+26658311808">+266 5831 1808</a><a href="mailto:mmgcgeneraltrading@gmail.com">Email MMGC</a></div></div><div class="wrap footer-bottom">© 2026 MMGC General Trading · Maseru, Kingdom of Lesotho</div></footer>
+<script src="procurement-data.js"></script>
 <script src="tenders.js"></script>
 </body></html>
