@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="Current public tenders, RFQs and procurement opportunities in Lesotho, curated by MMGC General Trading with links to official issuing sources.">
+  <meta name="description" content="Current public tenders, RFQs and procurement opportunities in Lesotho, curated by MMGC General Trading with simple summaries, deadline alerts and official source links.">
   <meta name="keywords" content="Lesotho tenders, Lesotho RFQ, procurement opportunities Lesotho, tenders Maseru, MMGC Procurement Desk">
   <meta name="author" content="MMGC General Trading">
   <meta property="og:title" content="Available Tenders in Lesotho | MMGC Procurement Desk">
-  <meta property="og:description" content="Selected open public tenders and RFQs in Lesotho with deadlines and official source links.">
+  <meta property="og:description" content="Selected open public tenders and RFQs in Lesotho with simple summaries, deadlines and links to official issuing sources.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/mmgc-logo.png">
   <meta name="theme-color" content="#0b2f57">
@@ -32,25 +32,27 @@
   </div>
 </header>
 
+<div id="procurement-alerts" class="procurement-alerts" aria-live="polite"></div>
+
 <main>
 <section class="tenders-hero">
   <div class="wrap tenders-hero-grid">
     <div>
       <p class="eyebrow">MMGC PROCUREMENT DESK</p>
       <h1>Available Tenders & RFQs in <span>Lesotho</span></h1>
-      <p class="lead">A public information page for businesses, suppliers and contractors looking for procurement opportunities in Lesotho. MMGC checks selected listings against public issuing sources and links visitors back to the official notice.</p>
-      <div class="hero-points"><span>Public opportunities</span><span>Closing dates</span><span>Official source links</span><span>MMGC tender support</span></div>
+      <p class="lead">A public information page for businesses, suppliers and contractors looking for procurement opportunities in Lesotho. MMGC gives each opportunity a simple summary before you continue to the official issuing source.</p>
+      <div class="hero-points"><span>Public opportunities</span><span>Closing-date alerts</span><span>Simple MMGC summaries</span><span>Official source links</span></div>
     </div>
     <aside class="tenders-summary">
-      <strong>Last reviewed</strong>
-      <b>09 September 2026</b>
-      <p>Always confirm the latest deadline, addenda, eligibility criteria and submission instructions with the issuing organisation before bidding.</p>
+      <strong>How this page works</strong>
+      <b>Deadline aware</b>
+      <p>When a submission deadline or compulsory site visit is within two days, an alert appears at the top. Tenders with known closing dates are automatically hidden after the deadline passes.</p>
     </aside>
   </div>
 </section>
 
 <section class="deadline-strip">
-  <div class="wrap deadline-grid">
+  <div class="wrap deadline-grid" id="deadline-grid">
     <div><span>10 Sep</span><b>Government e-Payment Gateway</b></div>
     <div><span>11 Sep</span><b>Road Fund Promotional Materials</b></div>
     <div><span>15 Sep</span><b>LHDA Water Samples</b></div>
@@ -65,103 +67,104 @@
       <a class="btn primary" href="index.html#tender">Need help preparing a bid?</a>
     </div>
 
-    <div class="tender-cards">
-      <article class="tender-card urgent">
+    <div class="tender-cards" id="tender-cards">
+      <article class="tender-card urgent" data-tender-id="finance-epayment" data-close="2026-09-10T23:59:59+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 10 Sep 2026</span></div>
         <p class="issuer">Ministry of Finance & Development Planning / CAFI</p>
         <h3>Software Development Services for Lesotho Government e-Payment Gateway</h3>
         <p>Design, development and implementation of the Lesotho Government e-Payment Gateway under the CAFI Project.</p>
         <div class="meta"><span>Category: ICT / Software</span><span>Ref: CAFI-WB-NC01</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://finance.gov.ls/tenders">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=finance-epayment">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20estimate%20the%20cost%20or%20pricing%20for%20the%20Government%20e-Payment%20Gateway%20tender." target="_blank" rel="noopener">Find cost with MMGC</a></div>
       </article>
 
-      <article class="tender-card urgent">
+      <article class="tender-card urgent" data-tender-id="roadfund-promotional" data-close="2026-09-11T23:59:59+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 11 Sep 2026</span></div>
         <p class="issuer">Road Fund Lesotho</p>
         <h3>Supply and Delivery of 2027 Promotional Materials</h3>
         <p>Road Fund tender for promotional materials. An Addendum 1 is also listed by the issuer and should be reviewed before submission.</p>
         <div class="meta"><span>Category: Goods / Promotional Materials</span><span>Addendum published</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://www.roadfund.org.ls/tenders/">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=roadfund-promotional">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20market%20costs%20for%20the%20Road%20Fund%202027%20promotional%20materials%20tender." target="_blank" rel="noopener">Find product costs with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="lhda-water" data-close="2026-09-15T12:00:00+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 15 Sep 2026 · 12:00</span></div>
         <p class="issuer">Lesotho Highlands Development Authority (LHDA)</p>
         <h3>RFQ for Water Samples</h3>
         <p>Current LHDA request for quotation listed on the authority's procurement portal.</p>
         <div class="meta"><span>Category: RFQ / Services or Supplies</span><span>Deadline: 12:00 PM</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://lhda.org.ls/procurement/currentTenders">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=lhda-water">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20with%20pricing%20for%20the%20LHDA%20Water%20Samples%20RFQ." target="_blank" rel="noopener">Find cost with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="rsl-current" data-close="2026-09-15T23:59:59+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 15 Sep 2026</span></div>
         <p class="issuer">Revenue Services Lesotho (RSL)</p>
         <h3>Current Procurement Opportunity Listed by RSL</h3>
-        <p>RSL currently lists an opportunity closing on 15 September 2026. Prospective bidders should review the detailed notice and mandatory documentation directly on the RSL portal.</p>
+        <p>RSL currently lists an opportunity closing on 15 September 2026. Review the detailed notice and mandatory documentation on the RSL portal.</p>
         <div class="meta"><span>Category: Public Procurement</span><span>Check mandatory documents</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://www.rsl.org.ls/opportunities-jobs-tenders">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=rsl-current">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20review%20and%20price%20the%20current%20RSL%20procurement%20opportunity." target="_blank" rel="noopener">Get pricing help</a></div>
       </article>
 
-      <article class="tender-card featured">
+      <article class="tender-card featured" data-tender-id="lhda-computers" data-close="2026-09-17T12:00:00+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 17 Sep 2026 · 12:00</span></div>
         <p class="issuer">Lesotho Highlands Development Authority (LHDA)</p>
         <h3>RFQ for Purchasing of Computers</h3>
-        <p>Supply opportunity for computers currently advertised on the LHDA procurement portal.</p>
-        <div class="meta"><span>Category: ICT Equipment</span><span>Deadline: 12:00 PM</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://lhda.org.ls/procurement/currentTenders">View official source →</a>
+        <p>Supply of HP EliteBook 6 G-series laptops in two lots, with specified RAM, SSD, operating system and accessories.</p>
+        <div class="meta"><span>Category: ICT Equipment</span><span>2 lots</span><span>Deadline: 12:00 PM</span></div>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=lhda-computers">View lots & simple summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20costs%20for%20the%20LHDA%20computer%20RFQ%20items." target="_blank" rel="noopener">Find laptop costs with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="finance-telematics" data-close="2026-09-22T23:59:59+02:00">
         <div class="card-top"><span class="status open">OPEN</span><span class="deadline">Closes 22 Sep 2026</span></div>
         <p class="issuer">Ministry of Finance & Development Planning</p>
         <h3>Telematics Tender</h3>
         <p>The Ministry of Finance tender portal lists the Telematics tender as valid until 22 September 2026.</p>
         <div class="meta"><span>Category: Technology / Services</span><span>Published 14 Aug 2026</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://finance.gov.ls/tenders">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=finance-telematics">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20estimate%20costs%20for%20the%20Ministry%20of%20Finance%20Telematics%20tender." target="_blank" rel="noopener">Find cost with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="gov-vision-mixer">
         <div class="card-top"><span class="status current">CURRENT NOTICE</span><span class="deadline">Published 26 Aug 2026</span></div>
         <p class="issuer">Government of Lesotho</p>
         <h3>Tender for Production Studio Vision Mixer and Accessories</h3>
-        <p>Public tender notice published through the Government of Lesotho tender portal. Confirm the closing date and bid instructions in the official document.</p>
-        <div class="meta"><span>Category: Broadcast / Production Equipment</span><span>Official tender document available</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://www.gov.ls/documents/tenders/">View official source →</a>
+        <p>Public tender notice for production-studio vision mixer equipment and accessories.</p>
+        <div class="meta"><span>Category: Broadcast / Production Equipment</span><span>Confirm closing date</span></div>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=gov-vision-mixer">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20market%20prices%20for%20the%20Vision%20Mixer%20and%20accessories%20tender." target="_blank" rel="noopener">Find product costs with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="gov-production-equipment">
         <div class="card-top"><span class="status current">CURRENT NOTICE</span><span class="deadline">Published 26 Aug 2026</span></div>
         <p class="issuer">Government of Lesotho</p>
         <h3>Tender for LTV Supply and Delivery of Production Equipment</h3>
-        <p>Public supply tender for LTV production equipment. Prospective bidders should use the official Government of Lesotho document for specifications and closing information.</p>
+        <p>Public supply tender for LTV production equipment. The official document contains the detailed specifications and closing information.</p>
         <div class="meta"><span>Category: Broadcast / ICT Equipment</span><span>Supply & Delivery</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://www.gov.ls/documents/tenders/">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=gov-production-equipment">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20product%20costs%20for%20the%20LTV%20production%20equipment%20tender." target="_blank" rel="noopener">Find product costs with MMGC</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="gov-cleaning">
         <div class="card-top"><span class="status current">CURRENT NOTICE</span><span class="deadline">Published 26 Aug 2026</span></div>
         <p class="issuer">Government of Lesotho</p>
         <h3>Tender for Provision of Cleaning Services</h3>
         <p>Public cleaning-services procurement notice available through the Government of Lesotho tender portal.</p>
         <div class="meta"><span>Category: Cleaning Services</span><span>Service contract</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://www.gov.ls/documents/tenders/">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=gov-cleaning">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20cost%20the%20Government%20cleaning%20services%20tender." target="_blank" rel="noopener">Get costing help</a></div>
       </article>
 
-      <article class="tender-card">
+      <article class="tender-card" data-tender-id="lec-prequalification">
         <div class="card-top"><span class="status current">NEW LISTING</span><span class="deadline">10 Sep 2026 listing</span></div>
         <p class="issuer">Lesotho Electricity Company (LEC)</p>
         <h3>Advert for Pre-Qualification</h3>
-        <p>LEC lists a new pre-qualification notice dated 10 September 2026 on its public tenders page. Open the official notice for category, eligibility and submission details.</p>
+        <p>LEC lists a new pre-qualification notice on its public tenders page. Open the summary first, then verify category and submission details with LEC.</p>
         <div class="meta"><span>Category: Pre-Qualification</span><span>Issuer: LEC</span></div>
-        <a class="source-link" target="_blank" rel="noopener" href="https://lec.co.ls/tenders/">View official source →</a>
+        <div class="card-actions"><a class="summary-link" href="tender-details.html?id=lec-prequalification">Simple MMGC summary →</a><a class="cost-link" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20assess%20the%20LEC%20pre-qualification%20notice." target="_blank" rel="noopener">Get MMGC help</a></div>
       </article>
     </div>
+    <p id="no-open-tenders" class="no-open-tenders" hidden>No currently listed tenders remain open based on the closing dates recorded by MMGC. Please check again soon.</p>
   </div>
 </section>
 
 <section class="support-banner">
   <div class="wrap support-grid">
-    <div><p class="eyebrow light">NEED HELP RESPONDING?</p><h2>Found a tender you want to bid for?</h2><p>MMGC can assist with tender document review, compliance checklists, BOQ and pricing support, supplier sourcing, quotations, technical formatting, indexing, printing and submission packaging.</p></div>
+    <div><p class="eyebrow light">NEED HELP RESPONDING?</p><h2>Found a tender you want to bid for?</h2><p>MMGC can assist with tender review, compliance checklists, BOQ and pricing support, supplier sourcing, quotations, technical formatting, indexing, printing and submission packaging.</p></div>
     <div class="support-actions"><a class="btn gold" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20found%20a%20tender%20on%20your%20Procurement%20Desk%20and%20need%20assistance.">Discuss Tender on WhatsApp</a><a class="btn light-btn" href="index.html#quote">Request a Quotation</a></div>
   </div>
 </section>
@@ -172,15 +175,15 @@
     <h2>MMGC is currently sourcing these HP printers</h2>
     <p class="section-intro">Technology suppliers and authorised resellers may send a quotation directly to MMGC. Please quote the exact product number where possible.</p>
     <div class="supplier-products">
-      <article><span>01</span><h3>HP Color LaserJet Enterprise Flow MFP 8801z</h3><p><b>Product number:</b> 9S183A</p><p><b>Quantity:</b> 1</p></article>
-      <article><span>02</span><h3>HP DesignJet T850 36-inch Multifunction Printer</h3><p><b>Product number:</b> 2Y9H2A</p><p><b>Quantity:</b> 1</p></article>
+      <article><span>01</span><h3>HP Color LaserJet Enterprise Flow MFP 8801z</h3><p><b>Product number:</b> 9S183A</p><p><b>Quantity:</b> 1</p><a class="cost-link product-cost" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20the%20current%20market%20cost%20of%20HP%20Color%20LaserJet%20Enterprise%20Flow%20MFP%208801z%20%289S183A%29.">Find current cost with MMGC →</a></article>
+      <article><span>02</span><h3>HP DesignJet T850 36-inch Multifunction Printer</h3><p><b>Product number:</b> 2Y9H2A</p><p><b>Quantity:</b> 1</p><a class="cost-link product-cost" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20please%20help%20me%20find%20the%20current%20market%20cost%20of%20HP%20DesignJet%20T850%2036-inch%20Multifunction%20Printer%20%282Y9H2A%29.">Find current cost with MMGC →</a></article>
     </div>
     <div class="supplier-bottom"><p>Supplier quotations should preferably include price, VAT status, availability, warranty, delivery lead time and delivery terms.</p><div><a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20would%20like%20to%20quote%20on%20the%20HP%20printers%20you%20are%20currently%20sourcing.">Quote via WhatsApp</a> <a class="btn primary" href="mailto:mmgcgeneraltrading@gmail.com?subject=Supplier%20Quotation%20-%20HP%20Printers">Email Quotation</a></div></div>
   </div>
 </section>
 
 <section class="verification-note">
-  <div class="wrap"><strong>Important:</strong> MMGC General Trading is not the issuing authority for the public tenders above. This page is an information and advertising service. Tender conditions can change through addenda or clarifications; bidders must verify every requirement and deadline with the original issuing organisation before submission.</div>
+  <div class="wrap"><strong>Important:</strong> MMGC General Trading is not the issuing authority for the public tenders above. This page is an information and advertising service. Tender conditions can change through addenda or clarifications; bidders must verify every requirement, date and submission instruction with the original issuing organisation before acting.</div>
 </section>
 </main>
 
@@ -193,5 +196,6 @@
   </div>
   <div class="wrap footer-bottom">© 2026 MMGC General Trading · Public tender information is provided for convenience and must be verified with the issuing authority.</div>
 </footer>
+<script src="tenders.js"></script>
 </body>
 </html>
