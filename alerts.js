@@ -1,0 +1,57 @@
+document.addEventListener('DOMContentLoaded',()=>{
+  const form=document.getElementById('alert-form');
+  const status=document.getElementById('browser-alert-status');
+  const enable=document.getElementById('enable-browser-alerts');
+  const save=document.getElementById('save-device-prefs');
+  const email=document.getElementById('alert-email');
+  const prefsKey='mmgcTenderAlertPrefs';
+  const readPrefs=()=>{try{return JSON.parse(localStorage.getItem(prefsKey)||'null');}catch{return null;}};
+  const getPrefs=()=>{
+    const d=new FormData(form);
+    return {
+      name:String(d.get('name')||'').trim(),company:String(d.get('company')||'').trim(),phone:String(d.get('phone')||'').trim(),email:String(d.get('email')||'').trim(),
+      levels:d.getAll('level'),categories:d.getAll('category'),alertTypes:d.getAll('alerttype')
+    };
+  };
+  const applyPrefs=p=>{
+    if(!p)return;
+    ['name','company','phone','email'].forEach(k=>{const el=form.elements[k];if(el&&p[k])el.value=p[k];});
+    [['level',p.levels],['category',p.categories],['alerttype',p.alertTypes]].forEach(([name,vals])=>{if(!Array.isArray(vals))return;form.querySelectorAll(`input[name="${name}"]`).forEach(x=>x.checked=vals.includes(x.value));});
+  };
+  const setStatus=()=>{
+    if(!status)return;
+    if(!('Notification' in window)){status.textContent='This browser does not support website notifications.';status.classList.remove('enabled');return;}
+    if(Notification.permission==='granted'){status.textContent='Browser tender alerts are enabled on this device. They can show when you revisit the MMGC site.';status.classList.add('enabled');}
+    else if(Notification.permission==='denied'){status.textContent='Browser notifications are blocked. Change the site permission in your browser if you want to enable them.';status.classList.remove('enabled');}
+    else{status.textContent='Browser alerts are not enabled yet.';status.classList.remove('enabled');}
+  };
+  enable?.addEventListener('click',async()=>{
+    if(!('Notification' in window)){setStatus();return;}
+    const permission=await Notification.requestPermission();
+    if(permission==='granted'){
+      localStorage.setItem(prefsKey,JSON.stringify(getPrefs()));
+      new Notification('MMGC Tender Alerts',{body:'Tender alerts are enabled on this device.',icon:'assets/mmgc-logo.png'});
+    }
+    setStatus();
+  });
+  save?.addEventListener('click',()=>{
+    localStorage.setItem(prefsKey,JSON.stringify(getPrefs()));
+    save.textContent='Saved ✓';setTimeout(()=>save.textContent='Save on This Device',1200);
+  });
+  const buildMessage=()=>{
+    const p=getPrefs();
+    return ['Hello MMGC General Trading,','','I would like to register my tender-alert preferences.','',`Name: ${p.name||'Not provided'}`,`Company: ${p.company||'Not provided'}`,`Phone / WhatsApp: ${p.phone||'Not provided'}`,`Email: ${p.email||'Not provided'}`,`Procurement levels: ${p.levels.join(', ')||'None selected'}`,`Categories: ${p.categories.join(', ')||'None selected'}`,`Alert types: ${p.alertTypes.join(', ')||'None selected'}`,'','Please advise when automated MMGC tender-alert delivery is available.'].join('\n');
+  };
+  form?.addEventListener('submit',e=>{
+    e.preventDefault();if(!form.reportValidity())return;
+    localStorage.setItem(prefsKey,JSON.stringify(getPrefs()));
+    window.open(`https://wa.me/26658311808?text=${encodeURIComponent(buildMessage())}`,'_blank','noopener');
+  });
+  email?.addEventListener('click',()=>{
+    if(!form.reportValidity())return;
+    localStorage.setItem(prefsKey,JSON.stringify(getPrefs()));
+    location.href=`mailto:mmgcgeneraltrading@gmail.com?subject=${encodeURIComponent('MMGC Tender Alert Registration')}&body=${encodeURIComponent(buildMessage())}`;
+  });
+  applyPrefs(readPrefs());setStatus();
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+});
