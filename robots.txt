@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mmgcgeneraltrading.github.io/mmgcgeneraltrading/sitemap.xml
+Sitemap: https://mmgcgeneraltrading.github.io/sitemap.xml
