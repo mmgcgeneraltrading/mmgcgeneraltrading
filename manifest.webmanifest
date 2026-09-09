@@ -1,0 +1,19 @@
+{
+  "name": "MMGC General Trading",
+  "short_name": "MMGC",
+  "description": "MMGC General Trading procurement desk, tender support, products, supplier marketplace and business services in Lesotho.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b2f57",
+  "icons": [
+    {"src":"/assets/mmgc-logo.png","sizes":"any","type":"image/png","purpose":"any"}
+  ],
+  "shortcuts": [
+    {"name":"Available Tenders","short_name":"Tenders","url":"/tenders.html"},
+    {"name":"Products","short_name":"Products","url":"/products.html"},
+    {"name":"Cost Calculator","short_name":"Costing","url":"/tender-calculator.html"},
+    {"name":"Suppliers","short_name":"Suppliers","url":"/suppliers.html"}
+  ]
+}
