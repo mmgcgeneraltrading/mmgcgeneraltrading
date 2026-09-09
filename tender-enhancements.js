@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded',()=>{
   const toolsBar=document.querySelector('.desk-tools-bar');
   if(toolsBar){
     const links=Array.from(toolsBar.querySelectorAll('a')).map(a=>({href:a.getAttribute('href'),icon:a.querySelector('b')?.textContent||'•',title:a.querySelector('span')?.childNodes?.[0]?.textContent?.trim()||a.textContent.trim(),small:a.querySelector('small')?.textContent||''}));
-    toolsBar.innerHTML=`<div class="wrap"><details class="tender-tools-menu"><summary><span class="tools-summary-main"><span class="tools-summary-icon">☰</span><span class="tools-summary-text"><b>Tender Desk Tools</b><span>Checklists · Costing · Issuers · Categories · Suppliers · Archive</span></span></span><span class="tools-chevron">⌄</span></summary><div class="tools-dropdown-grid">${links.map(x=>`<a href="${x.href}"><b>${x.icon}</b><span>${x.title}<small>${x.small}</small></span></a>`).join('')}</div></details></div>`;
+    if(!links.some(x=>x.href==='alerts.html'))links.push({href:'alerts.html',icon:'!',title:'Tender Alerts',small:'Deadlines & new tenders'});
+    toolsBar.innerHTML=`<div class="wrap"><details class="tender-tools-menu"><summary><span class="tools-summary-main"><span class="tools-summary-icon">☰</span><span class="tools-summary-text"><b>Tender Desk Tools</b><span>Checklists · Costing · Issuers · Categories · Suppliers · Alerts · Archive</span></span></span><span class="tools-chevron">⌄</span></summary><div class="tools-dropdown-grid">${links.map(x=>`<a href="${x.href}"><b>${x.icon}</b><span>${x.title}<small>${x.small}</small></span></a>`).join('')}</div></details></div>`;
   }
 
   const urgent=tenders.filter(t=>{
@@ -40,4 +41,25 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&popup.isConnected)close();});
     setTimeout(()=>popup.classList.add('show'),450);
   }
+
+  const prefs=(()=>{try{return JSON.parse(localStorage.getItem('mmgcTenderAlertPrefs')||'null');}catch{return null;}})();
+  if(prefs && 'Notification' in window && Notification.permission==='granted'){
+    const currentIds=tenders.filter(t=>!t.deadline||new Date(t.deadline)>=now).map(t=>t.id);
+    let known=[];try{known=JSON.parse(localStorage.getItem('mmgcKnownTenderIds')||'[]');}catch{known=[];}
+    const newlyListed=currentIds.filter(id=>!known.includes(id));
+    if(newlyListed.length){
+      const first=tenders.find(t=>t.id===newlyListed[0]);
+      new Notification(`MMGC: ${newlyListed.length} new tender${newlyListed.length===1?'':'s'} listed`,{body:first?`${first.title} — ${first.issuer}`:'Open the MMGC Tender Desk to review them.',icon:'assets/mmgc-logo.png'});
+    } else if(urgent.length){
+      const t=urgent[0];
+      const dayKey=`mmgcUrgentNotice-${t.id}-${now.toISOString().slice(0,10)}`;
+      if(!localStorage.getItem(dayKey)){
+        new Notification('MMGC: Submission due soon',{body:`${t.title} — ${t.deadlineLabel||'closing soon'}`,icon:'assets/mmgc-logo.png'});
+        localStorage.setItem(dayKey,'1');
+      }
+    }
+    localStorage.setItem('mmgcKnownTenderIds',JSON.stringify(currentIds));
+  }
+
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 });
