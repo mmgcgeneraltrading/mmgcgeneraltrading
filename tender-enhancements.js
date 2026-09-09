@@ -62,4 +62,5 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  if(!document.querySelector('script[src="assistant.js"]')){const s=document.createElement('script');s.src='assistant.js';document.body.appendChild(s);}
 });
