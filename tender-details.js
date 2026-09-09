@@ -24,6 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const days = Math.ceil(msLeft / 86400000);
     return `${days} DAY${days === 1 ? '' : 'S'}`;
   };
+
+  const typeNames={rfq:'Request for Quotation (RFQ)',major:'Major / Formal Tender',threshold:'Threshold Procurement'};
+  const eligibility=t.eligibility||['Confirm bidder eligibility, licences, registrations and experience in the official bidding document.'];
+  const requiredDocs=t.requiredDocs||['Use the official tender checklist and bidding document to confirm every mandatory form and supporting document.'];
+  const delivery=t.delivery||'Confirm delivery period, service period, completion period and destination in the official bidding document.';
+  const costingStatus=t.costingStatus||'MMGC can assist with costing once the complete specification, quantities and commercial requirements are available.';
+
   setText('detail-issuer', t.issuer);
   setText('detail-title', t.title);
   setText('detail-summary', t.summary);
@@ -38,20 +45,33 @@ document.addEventListener('DOMContentLoaded', () => {
   const snapshot = document.getElementById('snapshot-grid');
   if (snapshot) {
     const rows = [
+      ['Procurement type',typeNames[t.type]||'Current procurement notice','type'],
       ['Closing date',t.deadlineLabel || 'Confirm with issuer','calendar'],
-      ['Tender document',t.documentFee?.label || 'Check official notice',t.documentFee?.state || 'unknown'],
+      ['Tender document fee',t.documentFee?.label || 'Check official notice',t.documentFee?.state || 'unknown'],
       ['Bid security',t.bidSecurity?.label || 'Check bidding document',t.bidSecurity?.state || 'unknown'],
       ['Site visit',t.siteVisit?.label || 'Check bidding document',t.siteVisit?.state || 'unknown'],
       ['Pre-bid meeting',t.preBid?.label || 'Check bidding document',t.preBid?.state || 'unknown'],
-      ['Reference',t.ref || 'Not recorded by MMGC','ref']
+      ['Reference',t.ref || 'Not recorded by MMGC','ref'],
+      ['Published / recorded',t.published || 'Not recorded by MMGC','published']
     ];
     snapshot.innerHTML = rows.map(([label,value,state]) => `<div class="snapshot-panel ${escapeHtml(state)}"><small>${escapeHtml(label)}</small><b>${escapeHtml(value)}</b></div>`).join('');
   }
 
   const lots = document.getElementById('detail-lots');
-  if (lots) lots.innerHTML = (t.lots || []).map((x,i) => `<div class="lot-card"><span>LOT / ITEM ${String(i+1).padStart(2,'0')}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.text)}</p></div>`).join('');
+  if (lots) lots.innerHTML = (t.lots || []).map((x,i) => `<div class="lot-card"><span>LOT / ITEM ${String(i+1).padStart(2,'0')}</span><h3>${escapeHtml(x.title)}</h3><p>${escapeHtml(x.text || x.description || '')}</p></div>`).join('');
+
   const checklist = document.getElementById('detail-checklist');
   if (checklist) checklist.innerHTML = (t.checklist || []).map(x => `<li><span>✓</span>${escapeHtml(x)}</li>`).join('');
+
+  const main=document.querySelector('.detail-main');
+  const checklistPanel=checklist?.closest('.detail-panel');
+  if(main && checklistPanel && !document.getElementById('extended-tender-details')){
+    const extended=document.createElement('section');
+    extended.id='extended-tender-details';
+    extended.className='detail-panel extended-tender-details';
+    extended.innerHTML=`<p class="eyebrow">BID READINESS</p><h2>Eligibility, documents, delivery & costing</h2><div class="extended-grid"><div><h3>Eligibility</h3><ul>${eligibility.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div><div><h3>Required documents</h3><ul>${requiredDocs.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul></div><div><h3>Delivery / contract period</h3><p>${escapeHtml(delivery)}</p></div><div><h3>MMGC costing status</h3><p>${escapeHtml(costingStatus)}</p><a class="summary-link" href="tender-calculator.html?tender=${encodeURIComponent(t.id)}">Open Cost Calculator →</a></div></div>`;
+    main.insertBefore(extended,checklistPanel);
+  }
 
   const official = document.getElementById('official-button'); if (official) official.href = t.official;
   const costUrl = `tender-calculator.html?tender=${encodeURIComponent(t.id)}`;
@@ -67,6 +87,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const supportText = encodeURIComponent(`Hello MMGC, I need bid support for ${t.title}.`);
   const support = document.getElementById('support-button'); if (support) support.href = `https://wa.me/26658311808?text=${supportText}`;
   const mobileHelp = document.getElementById('mobile-help'); if (mobileHelp) mobileHelp.href = `https://wa.me/26658311808?text=${supportText}`;
+
+  const possibleVisit=(t.siteVisit?.state||'unknown')!=='none';
+  if(possibleVisit){
+    const side=document.querySelector('.detail-side');
+    if(side && !document.getElementById('site-visit-detail-card')){
+      const visit=document.createElement('div');visit.id='site-visit-detail-card';visit.className='detail-action-card site-visit-detail-card';
+      const visitMsg=encodeURIComponent(`Hello MMGC, I need site-visit attendance/support for ${t.title} (${t.issuer}). Please confirm whether the tender permits an authorised representative and what attendance documents are required.`);
+      visit.innerHTML=`<p class="eyebrow">SITE-VISIT SUPPORT</p><h3>MMGC can assist with attendance</h3><p>If this tender includes a compulsory or optional site visit, MMGC can attend on the client's behalf where the issuing authority allows an authorised representative. Attendance evidence, notes and photographs can be collected where permitted.</p><a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=${visitMsg}">Ask MMGC to Attend</a>`;
+      side.insertBefore(visit,side.firstChild);
+    }
+  }
 
   const calendar = document.getElementById('calendar-button');
   calendar?.addEventListener('click', () => {
