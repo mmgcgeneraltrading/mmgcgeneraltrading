@@ -24,16 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const days = Math.ceil(ms / dayMs);
     return `${days} day${days === 1 ? '' : 's'} left`;
   };
-  const indicator = (label, obj, icon) => {
-    const state = obj?.state || 'unknown';
-    return `<div class="snapshot-item ${state}"><span>${icon}</span><div><small>${escapeHtml(label)}</small><b>${escapeHtml(obj?.label || 'Check official document')}</b></div></div>`;
-  };
   const typeLabel = type => ({rfq:'RFQ',major:'MAJOR TENDER',threshold:'THRESHOLD'}[type] || 'CURRENT NOTICE');
+  const visitSupportUrl = t => `https://wa.me/26658311808?text=${encodeURIComponent(`Hello MMGC, I need site-visit attendance/support for: ${t.title} (${t.issuer}). Please confirm whether an authorised representative may attend and what documents are required.`)}`;
   const cardHtml = t => {
     const ms = remaining(t);
     const urgent = ms !== null && ms >= 0 && ms <= twoDaysMs;
     const cats = (t.categories || []).map(c => `<a href="category.html?category=${encodeURIComponent(c)}">${escapeHtml(c.toUpperCase())}</a>`).join('');
     const shareText = encodeURIComponent(`${t.title}\n${t.issuer}\nDeadline: ${t.deadlineLabel || 'Confirm with issuer'}\nMMGC summary: ${location.origin}${location.pathname.replace(/tenders\.html.*/, '')}tender-details.html?id=${encodeURIComponent(t.id)}`);
+    const hasPossibleVisit = (t.siteVisit?.state || 'unknown') !== 'none';
     return `<article class="tender-card ${urgent ? 'urgent' : ''}" data-id="${escapeHtml(t.id)}" data-type="${escapeHtml([t.type,...(t.categories||[])].join(' '))}" data-search="${escapeHtml([t.title,t.issuer,t.ref,t.summary,...(t.categories||[])].join(' ').toLowerCase())}">
       <div class="card-top"><span class="status ${urgent ? 'urgent-status' : 'open'}">${typeLabel(t.type)}</span><span class="days-counter">${escapeHtml(daysLabel(t))}</span></div>
       <p class="issuer"><a href="issuer.html?issuer=${encodeURIComponent(t.issuerKey)}">${escapeHtml(t.issuer)}</a></p>
@@ -46,13 +44,23 @@ document.addEventListener('DOMContentLoaded', () => {
         <div><small>Bid security</small><b>${escapeHtml(t.bidSecurity?.label || 'Check document')}</b></div>
         <div><small>Site visit</small><b>${escapeHtml(t.siteVisit?.label || 'Check document')}</b></div>
       </div>
+      ${hasPossibleVisit ? `<div class="site-visit-offer"><span>MMGC SITE-VISIT SUPPORT</span><p>If this tender has a compulsory or optional site visit, MMGC can assist with attendance where the issuing authority permits an authorised representative.</p><a target="_blank" rel="noopener" href="${visitSupportUrl(t)}">Ask MMGC to attend →</a></div>` : ''}
       <div class="card-actions primary-actions"><a class="summary-link" href="tender-details.html?id=${encodeURIComponent(t.id)}">Open Tender Snapshot</a><a class="cost-link" href="tender-calculator.html?tender=${encodeURIComponent(t.id)}">Cost This Tender</a></div>
-      <div class="utility-actions"><a target="_blank" rel="noopener" href="https://wa.me/?text=${shareText}">WhatsApp Share</a>${t.deadline ? `<button type="button" data-action="calendar" data-id="${escapeHtml(t.id)}">Add to Calendar</button>` : ''}<a href="checklists.html?type=${encodeURIComponent(t.type)}">Checklist</a><a target="_blank" rel="noopener" href="${escapeHtml(t.official)}">Official Source</a></div>
+      <div class="utility-actions"><a target="_blank" rel="noopener" href="https://wa.me/?text=${shareText}">WhatsApp Share</a>${t.deadline ? `<button type="button" data-action="calendar" data-id="${escapeHtml(t.id)}">Add to Calendar</button>` : ''}<a href="checklists.html?type=${encodeURIComponent(t.type)}">Checklist</a>${hasPossibleVisit ? `<a target="_blank" rel="noopener" href="${visitSupportUrl(t)}">Site Visit Help</a>` : ''}<a target="_blank" rel="noopener" href="${escapeHtml(t.official)}">Official Source</a></div>
     </article>`;
   };
 
   const openTenders = tenders.filter(t => !isExpired(t));
   if (container) container.innerHTML = openTenders.map(cardHtml).join('');
+
+  const listing = document.querySelector('.tender-listing .wrap');
+  if (listing && !document.querySelector('.site-visit-service-banner')) {
+    const banner = document.createElement('div');
+    banner.className = 'site-visit-service-banner';
+    banner.innerHTML = `<div><span>MMGC SITE-VISIT ATTENDANCE</span><h3>Do not miss a compulsory tender site visit.</h3><p>For tenders that include a site visit, MMGC can assist by attending on the client's behalf where the tender rules allow an authorised representative. We can help with attendance evidence, notes and site photographs where permitted.</p></div><a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=${encodeURIComponent('Hello MMGC, I need help attending a compulsory tender site visit.')}" >Book Site-Visit Support</a>`;
+    const filters = listing.querySelector('.filter-scroll');
+    if (filters) filters.insertAdjacentElement('afterend', banner); else listing.prepend(banner);
+  }
 
   const activeAlerts = [];
   openTenders.forEach(t => {
@@ -62,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (t.siteVisit?.date) {
       const sv = new Date(t.siteVisit.date).getTime() - now.getTime();
-      if (sv >= 0 && sv <= twoDaysMs) activeAlerts.push({kind:'COMPULSORY SITE VISIT',title:t.title,detail:'Site visit is within 2 days',href:`tender-details.html?id=${encodeURIComponent(t.id)}`});
+      if (sv >= 0 && sv <= twoDaysMs) activeAlerts.push({kind:'COMPULSORY SITE VISIT',title:t.title,detail:'Site visit is within 2 days — MMGC attendance support is available where representation is permitted.',href:visitSupportUrl(t)});
     }
   });
-  if (alerts && activeAlerts.length) alerts.innerHTML = `<div class="wrap alerts-wrap">${activeAlerts.map(a=>`<a class="deadline-alert" href="${a.href}"><span class="alert-badge">${a.kind}</span><strong>${escapeHtml(a.title)}</strong><span>${escapeHtml(a.detail)}</span><b>View →</b></a>`).join('')}</div>`;
+  if (alerts && activeAlerts.length) alerts.innerHTML = `<div class="wrap alerts-wrap">${activeAlerts.map(a=>`<a class="deadline-alert" href="${a.href}" ${a.href.startsWith('http')?'target="_blank" rel="noopener"':''}><span class="alert-badge">${a.kind}</span><strong>${escapeHtml(a.title)}</strong><span>${escapeHtml(a.detail)}</span><b>View →</b></a>`).join('')}</div>`;
 
   const cards = () => Array.from(document.querySelectorAll('.tender-card'));
   const applyFilters = () => {
