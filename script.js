@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!document.querySelector('link[href="mobile.css"]')) {
+    const mobileCss = document.createElement('link');
+    mobileCss.rel = 'stylesheet';
+    mobileCss.href = 'mobile.css';
+    document.head.appendChild(mobileCss);
+  }
+
   const form = document.getElementById('quote-form');
   const emailButton = document.getElementById('email-quote');
   const navToggle = document.getElementById('nav-toggle');
