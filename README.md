@@ -2,7 +2,9 @@
 
 **General Suppliers & Business Support | Lesotho**
 
-Welcome to the official GitHub repository of **MMGC General Trading**.
+Official website: **https://mmgcgeneraltrading.github.io/**
+
+Welcome to the official GitHub Pages repository of **MMGC General Trading**.
 
 MMGC General Trading is a Lesotho-registered business providing general supply, procurement support, tender and business documentation, information technology support, printing and office support, consultancy, cleaning, construction-related services and other business support solutions.
 
@@ -35,16 +37,23 @@ MMGC General Trading is a Lesotho-registered business providing general supply, 
 
 MMGC supports organisations and businesses with procurement documentation, quotations, tender preparation, document compilation, printing, scanning and submission support.
 
-This repository may also be used for selected **public MMGC digital resources**, company information and website files.
+The public website also includes the **MMGC Procurement Desk**, tender summaries, deadline tools, tender costing resources, supplier information and other public business resources.
 
 ## Repository Structure
 
 ```text
-mmgcgeneraltrading/
-├── README.md
-├── docs/          # Public company information and documents
-├── website/       # MMGC website files
-└── assets/        # Public logos, images and branding resources
+mmgcgeneraltrading.github.io/
+├── index.html
+├── tenders.html
+├── tender-details.html
+├── tender-calculator.html
+├── about.html
+├── services.html
+├── portfolio.html
+├── industries.html
+├── docs/
+├── assets/
+└── supporting CSS / JavaScript files
 ```
 
 ## Confidentiality Notice
