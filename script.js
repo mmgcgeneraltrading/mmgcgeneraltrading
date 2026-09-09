@@ -9,6 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   addStylesheet('mobile.css');
   addStylesheet('home-upgrades.css');
+  addStylesheet('quote-form-upgrade.css');
+
+  if (!document.querySelector('link[rel="manifest"]')) {
+    const manifest = document.createElement('link');
+    manifest.rel = 'manifest';
+    manifest.href = 'manifest.webmanifest';
+    document.head.appendChild(manifest);
+  }
 
   const form = document.getElementById('quote-form');
   const emailButton = document.getElementById('email-quote');
@@ -33,6 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
       tenderPageLink.textContent = 'Public Tenders';
       const quoteLink = nav.querySelector('.pill');
       nav.insertBefore(tenderPageLink, quoteLink || null);
+    }
+    if (!nav.querySelector('a[href="products.html"]')) {
+      const productsLink = document.createElement('a');
+      productsLink.href = 'products.html';
+      productsLink.textContent = 'Products';
+      const quoteLink = nav.querySelector('.pill');
+      nav.insertBefore(productsLink, quoteLink || null);
     }
   }
 
@@ -59,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (header && !document.querySelector('.home-tender-ribbon')) {
     const ribbon = document.createElement('div');
     ribbon.className = 'home-tender-ribbon';
-    ribbon.innerHTML = '<div class="wrap"><strong>Looking for opportunities in Lesotho?</strong><a href="tenders.html">Browse current public tenders, RFQs & threshold procurement →</a></div>';
+    ribbon.innerHTML = '<div class="wrap"><strong>Looking for opportunities in Lesotho?</strong><a href="tenders.html">Browse current public tenders, RFQs & threshold procurement →</a><a href="products.html">Shop / request products →</a></div>';
     header.insertAdjacentElement('afterend', ribbon);
   }
 
@@ -101,6 +116,52 @@ document.addEventListener('DOMContentLoaded', () => {
     popup.addEventListener('click', e => { if (e.target === popup) closePopup(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && popup.isConnected) closePopup(); }, {once:true});
     setTimeout(() => popup.classList.add('show'), 450);
+  }
+
+  if (form && !form.querySelector('.quote-form-intro')) {
+    const originalFields = Array.from(form.children);
+    const intro = document.createElement('div');
+    intro.className = 'quote-form-intro';
+    intro.innerHTML = '<span>MMGC QUICK ENQUIRY</span><h3>Tell us exactly what you need.</h3><p>Three short sections help us prepare a useful response without unnecessary back-and-forth.</p><div class="quote-form-progress"><span></span><span></span><span></span></div>';
+    const fieldsWrap = document.createElement('div');
+    fieldsWrap.className = 'quote-form-fields';
+    form.append(intro, fieldsWrap);
+    originalFields.forEach(el => fieldsWrap.appendChild(el));
+
+    const children = Array.from(fieldsWrap.children);
+    const addStepBefore = (target, number, label) => {
+      if (!target) return;
+      const step = document.createElement('div');
+      step.className = 'quote-step';
+      step.innerHTML = `<b>${number}</b><span>${label}</span>`;
+      fieldsWrap.insertBefore(step, target);
+    };
+    addStepBefore(children[0], '01', 'Your contact details');
+    const serviceLabel = Array.from(fieldsWrap.querySelectorAll(':scope > label')).find(l => l.querySelector('select[name="service"]'));
+    addStepBefore(serviceLabel, '02', 'What you need from MMGC');
+    const deadlineRow = Array.from(fieldsWrap.querySelectorAll(':scope > .form-row')).find(r => r.querySelector('input[name="deadline"]'));
+    addStepBefore(deadlineRow, '03', 'Timing & delivery');
+
+    form.querySelectorAll('label').forEach(label => {
+      const input = label.querySelector('input,select,textarea');
+      if (!input) return;
+      const raw = Array.from(label.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
+      if (!raw) return;
+      const required = input.required;
+      const text = raw.textContent.trim();
+      raw.textContent = '';
+      const title = document.createElement('span');
+      title.innerHTML = `${text} ${required ? '<span class="required-mark">*</span>' : '<span class="optional-mark">(optional)</span>'}`;
+      label.insertBefore(title, label.firstChild);
+    });
+
+    const messageLabel = form.querySelector('textarea[name="message"]')?.closest('label');
+    if (messageLabel) {
+      const help = document.createElement('span');
+      help.className = 'field-help';
+      help.textContent = 'Include item names, quantities, model/specification, tender reference or scope of work where possible.';
+      messageLabel.insertBefore(help, messageLabel.querySelector('textarea'));
+    }
   }
 
   if (form) {
