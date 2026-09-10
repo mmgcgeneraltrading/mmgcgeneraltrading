@@ -1,3 +1,4 @@
+(()=>{const s=document.createElement('script');s.src='site-integration.js';s.defer=true;document.head.appendChild(s);})();
 document.addEventListener('DOMContentLoaded',()=>{
   const tenders=Array.isArray(window.MMGC_TENDERS)?window.MMGC_TENDERS:[];
   const now=Date.now();
