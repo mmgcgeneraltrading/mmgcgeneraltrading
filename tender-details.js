@@ -1,10 +1,11 @@
+(()=>{const s=document.createElement('script');s.src='site-integration.js';s.defer=true;document.head.appendChild(s);})();
 document.addEventListener('DOMContentLoaded', () => {
   const tenders = Array.isArray(window.MMGC_TENDERS) ? window.MMGC_TENDERS : [];
   const params = new URLSearchParams(location.search);
   const id = params.get('id');
   const t = tenders.find(x => x.id === id) || null;
   const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value || ''; };
-  const escapeHtml = (value='') => String(value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+  const escapeHtml = (value='') => String(value).replace(/[&<>'\"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[ch]));
 
   if (!t) {
     setText('detail-issuer','MMGC Procurement Desk');
