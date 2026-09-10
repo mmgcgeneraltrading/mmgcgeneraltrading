@@ -9,6 +9,21 @@ document.addEventListener('DOMContentLoaded',()=>{
   const daysLeft=d=>Math.ceil((new Date(d)-now)/86400000);
   const active=(window.MMGC_JOBS||[]).filter(x=>new Date(x.deadline)>=now);
   let type='all';
+
+  const schemaItems=active.filter(x=>x.type==='job').map(x=>({
+    '@type':'JobPosting',
+    title:x.title,
+    description:x.summary,
+    datePosted:(x.posted||'').slice(0,10),
+    validThrough:x.deadline,
+    hiringOrganization:{'@type':'Organization',name:x.employer},
+    jobLocation:{'@type':'Place',address:{'@type':'PostalAddress',addressLocality:x.location,addressCountry:'LS'}},
+    url:x.official
+  }));
+  if(schemaItems.length){
+    const ld=document.createElement('script');ld.type='application/ld+json';ld.textContent=JSON.stringify({'@context':'https://schema.org','@graph':schemaItems});document.head.appendChild(ld);
+  }
+
   function render(){
     const q=(search?.value||'').trim().toLowerCase();
     const rows=active.filter(x=>(type==='all'||x.type===type)&&(!q||[x.title,x.employer,x.location,x.summary,x.arrangement].join(' ').toLowerCase().includes(q)));
