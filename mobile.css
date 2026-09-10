@@ -13,8 +13,9 @@
   .visual-services,.portfolio-grid,.why-grid,.feature-grid,.support-journey{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
   .tender-cards,.supplier-products,.market-requests{grid-template-columns:repeat(2,minmax(0,1fr))!important}
-  .desk-tools-scroll,.filter-scroll,.catalog-filters{scrollbar-width:none}
-  .desk-tools-scroll::-webkit-scrollbar,.filter-scroll::-webkit-scrollbar,.catalog-filters::-webkit-scrollbar{display:none}
+  .opp-grid,.stationery-grid,.svc-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .desk-tools-scroll,.filter-scroll,.catalog-filters,.opp-tabs{scrollbar-width:none}
+  .desk-tools-scroll::-webkit-scrollbar,.filter-scroll::-webkit-scrollbar,.catalog-filters::-webkit-scrollbar,.opp-tabs::-webkit-scrollbar{display:none}
 }
 
 /* Tablet portrait */
@@ -27,6 +28,8 @@
   .detail-side,.calc-summary,.basket{position:static!important}
   .visual-services,.portfolio-grid,.why-grid,.feature-grid,.support-journey,.tender-cards,.supplier-products,.market-requests{grid-template-columns:1fr 1fr!important}
   .desk-heading,.listing-intro-row,.support-cta,.custom-grid{align-items:flex-start}
+  .opp-tabs{display:flex!important;overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .opp-tabs a{flex:0 0 auto;white-space:nowrap}
 }
 
 /* Phone */
@@ -61,13 +64,13 @@
   .hero-brand-card h3{font-size:17px!important}
   .hero-contact-mini a{font-size:12px!important;padding:7px 0!important;word-break:break-word;min-height:40px;display:flex;align-items:center}
 
-  .section,.desk-section,.catalog-section{padding:46px 0!important}
+  .section,.desk-section,.catalog-section,.opp-section,.stationery-section,.svc-section{padding:42px 0!important}
   h1,h2,h3,p,li,a,span,b{overflow-wrap:anywhere}
   h2{font-size:clamp(28px,8vw,36px)!important;line-height:1.08!important;margin-bottom:14px!important}
   h3{line-height:1.2}
   .eyebrow{font-size:10px!important;letter-spacing:1.4px!important}
   .section-intro{font-size:15px!important}
-  .intro-grid,.vision-grid,.tender-list,.visual-services,.portfolio-grid,.industries-grid,.why-grid,.steps,.footer-grid,.form-row,.feature-grid,.support-journey,.tender-cards,.supplier-products,.market-requests{grid-template-columns:1fr!important}
+  .intro-grid,.vision-grid,.tender-list,.visual-services,.portfolio-grid,.industries-grid,.why-grid,.steps,.footer-grid,.form-row,.feature-grid,.support-journey,.tender-cards,.supplier-products,.market-requests,.opp-grid,.stationery-grid,.svc-grid{grid-template-columns:1fr!important}
   .about-grid,.tender-grid,.quote-grid,.industries-grid-wrap,.split,.desk-story-grid,.costing-grid,.detail-layout,.snapshot-hero-grid,.calculator-layout,.supplier-register-grid,.catalog-layout{grid-template-columns:1fr!important;gap:26px!important}
   .image-panel img{min-height:0!important;height:auto!important;border-radius:16px!important}
   .visual-services article img{height:180px!important;object-fit:cover}
@@ -77,8 +80,16 @@
   .method-step{grid-template-columns:38px 1fr!important;gap:10px!important;padding:12px 0!important}
   .method-step>b{width:34px!important;height:34px!important}
 
+  .opp-hero,.price-hero,.svc-hero,.tool-hero,.snapshot-hero{padding:36px 0!important}
+  .opp-hero h1,.price-hero h1,.svc-hero h1,.tool-hero h1,.snapshot-hero h1{font-size:clamp(30px,9vw,40px)!important;line-height:1.06!important}
+  .opp-tabs{margin-left:-2%;margin-right:-2%;padding-left:2%;padding-right:2%}
+  .opp-card,.stationery-card,.svc-card,.job-card{padding:16px!important;border-radius:14px!important}
+  .job-card{display:grid!important;grid-template-columns:1fr!important;gap:14px!important}
+  .job-actions{display:grid!important;grid-template-columns:1fr!important;gap:8px!important;width:100%}
+  .job-actions a,.job-actions button{width:100%;min-height:44px;display:flex!important;align-items:center;justify-content:center;text-align:center}
+  .job-meta{display:flex!important;flex-wrap:wrap!important;gap:7px!important}
   .listing-tools{grid-template-columns:1fr!important;gap:14px!important}
-  .tender-search input,.catalog-search input{font-size:16px!important}
+  .tender-search input,.catalog-search input,#job-search{font-size:16px!important;min-height:44px}
   .filter-scroll,.catalog-filters{overflow-x:auto;display:flex;flex-wrap:nowrap;padding-bottom:6px;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
   .filter-chip,.catalog-filter{flex:0 0 auto;min-height:40px;scroll-snap-align:start}
   .snapshot-mini{grid-template-columns:1fr!important}
@@ -86,6 +97,10 @@
   .card-actions>a,.utility-actions>a,.utility-actions>button{min-height:42px!important}
   .site-visit-service-banner,.support-cta,.desk-heading,.listing-intro-row,.custom-grid{display:block!important}
   .site-visit-service-banner .btn,.support-cta .btn,.desk-heading .btn,.custom-grid .btn{width:100%;margin-top:12px;text-align:center}
+
+  .stationery-head{display:block!important}.stationery-head>p{margin-top:8px}
+  .stationery-card .actions{grid-template-columns:1fr!important}
+  .sell-price,.svc-price{font-size:24px!important}
 
   .profile-cta{padding:42px 0!important}
   .profile-card{grid-template-columns:1fr!important;padding:18px!important;gap:16px!important}
@@ -111,6 +126,8 @@
   .mobile-dock a,.mobile-catalog-nav a{min-height:46px}
   .urgent-popup,.tender-announcement{padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom))!important}
   .urgent-popup-card,.tender-announcement-card{max-height:calc(100dvh - 20px)!important;overflow:auto!important;-webkit-overflow-scrolling:touch}
+  .mmgc-assistant-panel{left:6px!important;right:6px!important;width:auto!important;bottom:136px!important;max-height:calc(100dvh - 154px)!important}
+  .mmgc-assistant-launcher{right:10px!important;bottom:78px!important}
 }
 
 /* Small phones / older Android */
@@ -122,11 +139,12 @@
   h2{font-size:27px!important}
   .btn{font-size:12px!important}
   .card-actions,.utility-actions{grid-template-columns:1fr!important}
-  .mobile-dock a,.mobile-catalog-nav a{font-size:8px!important}
+  .mobile-dock a,.mobile-catalog-nav a{font-size:8px!important;padding-left:3px!important;padding-right:3px!important}
   .snapshot-grid{grid-template-columns:1fr!important}
   .calculator-top,.calc-fields{grid-template-columns:1fr!important}
   .calc-line{grid-template-columns:1fr!important}
   .calc-line .remove-line{justify-self:end}
+  .opp-card,.stationery-card,.svc-card,.job-card{padding:14px!important}
 }
 
 /* Very small devices */
@@ -139,6 +157,7 @@
   .desk-tags{gap:4px!important}
   .desk-tags span{font-size:9px!important}
   .mobile-dock a,.mobile-catalog-nav a{font-size:7.5px!important}
+  .mmgc-assistant-panel{left:3px!important;right:3px!important}
 }
 
 /* Landscape phones */
@@ -148,13 +167,14 @@
   .hero-brand-card{display:none}
   .mobile-dock,.mobile-catalog-nav{position:sticky!important;bottom:0}
   .urgent-popup-card,.tender-announcement-card{max-height:90dvh!important}
+  .mmgc-assistant-panel{top:8px!important;bottom:8px!important;max-height:none!important}
 }
 
 /* Touch devices */
 @media (hover:none),(pointer:coarse){
   .btn:hover,.tender-card:hover,.tools-dropdown-grid a:hover{transform:none!important;box-shadow:inherit!important}
   a,button,input,select,textarea,summary{touch-action:manipulation}
-  button,a.btn,.summary-link,.cost-link,.request-price,.add-enquiry,.wa-order{min-height:44px}
+  button,a.btn,.summary-link,.cost-link,.request-price,.add-enquiry,.wa-order,.job-actions a,.stationery-card .actions a{min-height:44px}
 }
 
 /* Wide desktop */
@@ -162,4 +182,5 @@
   .wrap{width:min(90%,1280px)}
   .hero-grid{gap:64px}
   .tender-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opp-grid,.stationery-grid,.svc-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
