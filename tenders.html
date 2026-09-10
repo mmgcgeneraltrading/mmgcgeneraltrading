@@ -68,8 +68,15 @@
       <div class="listing-stat"><strong id="open-count">0</strong><span>Open / current opportunities</span></div>
       <label class="tender-search"><span>Search tenders</span><input id="tender-search" type="search" placeholder="Issuer, title, category, reference, item..." autocomplete="off"></label>
     </div>
-    <div class="filter-scroll" id="tender-filters" aria-label="Filter tenders">
-      <button class="filter-chip active" data-filter="all">All</button>
+    <div class="filter-scroll" id="tender-group-filters" aria-label="Group tenders by visit or pre-bid status">
+      <button class="filter-chip active" data-group="all">All Tenders</button>
+      <button class="filter-chip" data-group="visit-prebid">Site Visit / Pre-bid Required</button>
+      <button class="filter-chip" data-group="pending-visit">Yet to be Site Visited</button>
+      <button class="filter-chip" data-group="no-visit-prebid">No Site Visit / Pre-bid</button>
+      <button class="filter-chip" data-group="passed-visit">Visit / Pre-bid Already Passed</button>
+    </div>
+    <div class="filter-scroll" id="tender-filters" aria-label="Filter tenders by type">
+      <button class="filter-chip active" data-filter="all">All Types</button>
       <button class="filter-chip" data-filter="threshold">Threshold</button>
       <button class="filter-chip" data-filter="rfq">RFQs</button>
       <button class="filter-chip" data-filter="major">Major Tenders</button>
