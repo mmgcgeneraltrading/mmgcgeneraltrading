@@ -35,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.querySelectorAll('a').forEach(a => {
       if (pageMap[a.getAttribute('href')]) a.href = pageMap[a.getAttribute('href')];
     });
-    if (!nav.querySelector('a[href="tenders.html"]')) {
-      const tenderPageLink = document.createElement('a');
-      tenderPageLink.href = 'tenders.html';
-      tenderPageLink.textContent = 'Public Tenders';
+    if (!nav.querySelector('a[href="opportunities.html"]')) {
+      const opportunitiesLink = document.createElement('a');
+      opportunitiesLink.href = 'opportunities.html';
+      opportunitiesLink.textContent = 'Opportunities';
       const quoteLink = nav.querySelector('.pill');
-      nav.insertBefore(tenderPageLink, quoteLink || null);
+      nav.insertBefore(opportunitiesLink, quoteLink || null);
     }
     if (!nav.querySelector('a[href="products.html"]')) {
       const productsLink = document.createElement('a');
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (header && !document.querySelector('.home-tender-ribbon')) {
     const ribbon = document.createElement('div');
     ribbon.className = 'home-tender-ribbon';
-    ribbon.innerHTML = '<div class="wrap"><strong>Looking for opportunities in Lesotho?</strong><a href="tenders.html">Browse current public tenders, RFQs & threshold procurement →</a><a href="products.html">Shop / request products →</a></div>';
+    ribbon.innerHTML = '<div class="wrap"><strong>Looking for opportunities in Lesotho?</strong><a href="opportunities.html">Browse tenders, RFQs, jobs, consultancies & supplier opportunities →</a><a href="products.html">Shop / request products →</a></div>';
     header.insertAdjacentElement('afterend', ribbon);
   }
 
@@ -88,19 +88,19 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="tender-announcement-card">
         <div class="tender-announcement-top">
           <button class="tender-announcement-close" type="button" aria-label="Close">×</button>
-          <span class="tender-announcement-badge">MMGC PROCUREMENT DESK</span>
-          <h2 id="tender-announcement-title">Public tenders are now available on MMGC.</h2>
-          <p>Browse Lesotho tender opportunities, RFQs and threshold procurement with simple MMGC summaries, deadline information, costing tools and bid-support links.</p>
+          <span class="tender-announcement-badge">MMGC OPPORTUNITIES</span>
+          <h2 id="tender-announcement-title">Discover public opportunities on MMGC.</h2>
+          <p>Browse Lesotho tenders, RFQs, jobs, consultancies and supplier opportunities, with direct links back to official sources.</p>
         </div>
         <div class="tender-announcement-body">
           <div class="tender-announcement-features">
-            <div><b>Available Tenders</b><span>Current public opportunities</span></div>
-            <div><b>Tender Snapshots</b><span>Important requirements at a glance</span></div>
-            <div><b>Costing Support</b><span>Tools for pricing and sourcing</span></div>
+            <div><b>Tenders & RFQs</b><span>Current procurement opportunities</span></div>
+            <div><b>Jobs & Consultancies</b><span>Individual opportunities</span></div>
+            <div><b>MMGC Support</b><span>Costing, sourcing and documents</span></div>
           </div>
           <div class="tender-announcement-actions">
-            <a class="btn primary" href="tenders.html">View Public Tenders</a>
-            <a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20help%20with%20a%20tender.">Get Tender Help</a>
+            <a class="btn primary" href="opportunities.html">View Opportunities</a>
+            <a class="btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/26658311808?text=Hello%20MMGC%2C%20I%20need%20help%20with%20an%20opportunity.">Get MMGC Help</a>
             <button class="btn secondary tender-announcement-later" type="button">Continue to Website</button>
           </div>
         </div>
