@@ -1,3 +1,4 @@
+(()=>{const s=document.createElement('script');s.src='site-integration.js';s.defer=true;document.head.appendChild(s);})();
 document.addEventListener('DOMContentLoaded',()=>{
   const list=document.getElementById('job-list');
   const search=document.getElementById('job-search');
