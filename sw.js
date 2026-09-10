@@ -1,5 +1,5 @@
-const CACHE='mmgc-platform-v6';
-const CORE=['/','/index.html','/opportunities.html','/tenders.html','/jobs.html','/job.html','/products.html','/stationery.html','/standard-services.html','/suppliers.html','/tender-calculator.html','/checklists.html','/styles.css','/mobile.css','/opportunities.css','/products.css','/assistant.css','/ai-bridge.css','/calculator-modern.css','/calculator-upload.css','/site-integration.js','/jobs-data.js','/jobs-social-data.js','/jobs.js','/job.js','/calculator.js','/procurement-data.js','/source-links.js','/assets/mmgc-logo.png'];
+const CACHE='mmgc-platform-v7';
+const CORE=['/','/index.html','/opportunities.html','/tenders.html','/jobs.html','/job.html','/products.html','/stationery.html','/standard-services.html','/suppliers.html','/tender-calculator.html','/checklists.html','/styles.css','/mobile.css','/opportunities.css','/products.css','/assistant.css','/ai-bridge.css','/calculator-modern.css','/calculator-upload.css','/tender-intelligence.css','/site-integration.js','/jobs-data.js','/jobs-social-data.js','/jobs.js','/job.js','/calculator.js','/tender-intelligence.js','/procurement-data.js','/source-links.js','/assets/mmgc-logo.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).catch(()=>{}));self.skipWaiting();});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
 self.addEventListener('fetch',event=>{
