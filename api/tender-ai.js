@@ -9,7 +9,7 @@ function allowCors(req, res) {
     res.setHeader('Access-Control-Allow-Origin', origin);
   }
   res.setHeader('Vary', 'Origin');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 }
 
@@ -28,9 +28,19 @@ function extractText(data) {
 export default async function handler(req, res) {
   allowCors(req, res);
   if (req.method === 'OPTIONS') return res.status(204).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST required.' });
 
   const apiKey = process.env.OPENAI_API_KEY;
+
+  if (req.method === 'GET') {
+    return res.status(200).json({
+      status: 'ok',
+      service: 'MMGC AI Tender Costing',
+      configured: Boolean(apiKey),
+      model: 'gpt-5.6-terra'
+    });
+  }
+
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST required.' });
   if (!apiKey) return res.status(503).json({ error: 'MMGC AI is not activated yet. OPENAI_API_KEY is missing on the server.' });
 
   const mode = req.body?.mode === 'review' ? 'review' : 'research';
