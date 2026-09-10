@@ -1,5 +1,19 @@
 window.MMGC_JOBS = [
   {
+    id: 'lhda-terrestrial-riverine-ecologist-2026',
+    type: 'job',
+    employer: 'Lesotho Highlands Development Authority (LHDA)',
+    title: 'Terrestrial and Riverine Ecologist – Environmental Panel of Experts',
+    location: 'Lesotho · see official LHDA vacancy',
+    arrangement: 'Expert vacancy · see official notice',
+    posted: '2026-09-10T00:00:00+02:00',
+    deadline: '2026-10-02T12:00:00+02:00',
+    summary: 'LHDA currently lists a Terrestrial and Riverine Ecologist vacancy for its Environmental Panel of Experts, with a closing deadline of 2 October 2026 at 12:00 PM.',
+    requirements: ['See the official LHDA Careers vacancy and downloadable notice for the complete qualifications, experience and submission requirements'],
+    application: 'Use the official LHDA Careers page and vacancy document for the complete application instructions.',
+    official: 'https://www.lhda.org.ls/home/careers'
+  },
+  {
     id: 'lca-field-enumerators-2026',
     type: 'job',
     employer: 'Lesotho Communications Authority (LCA)',
