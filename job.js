@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded',()=>{
-  const jobs=Array.isArray(window.MMGC_JOBS)?window.MMGC_JOBS:[];
+  const combined=[...(Array.isArray(window.MMGC_JOBS)?window.MMGC_JOBS:[]),...(Array.isArray(window.MMGC_SOCIAL_JOBS)?window.MMGC_SOCIAL_JOBS:[])];
+  const jobs=[...new Map(combined.map(x=>[x.id,x])).values()];
   const id=new URLSearchParams(location.search).get('id');
   const job=jobs.find(x=>x.id===id);
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -23,20 +24,26 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('job-summary').textContent=job.summary;
   document.getElementById('job-meta').innerHTML=[job.employer,job.location,job.arrangement,`Deadline: ${format}`].map(x=>`<span>${esc(x)}</span>`).join('');
   document.getElementById('job-employer').textContent=job.employer;
-  document.getElementById('job-requirements').innerHTML=(job.requirements||['See official source for complete requirements.']).map(x=>`<li>${esc(x)}</li>`).join('');
-  document.getElementById('job-application').textContent=job.application||'See the official source for application instructions.';
-  const official=document.getElementById('job-official');official.href=job.official;official.textContent=job.officialLabel||'Open Official Source';
+  document.getElementById('job-requirements').innerHTML=(job.requirements||['See the source for complete requirements.']).map(x=>`<li>${esc(x)}</li>`).join('');
+  document.getElementById('job-application').textContent=job.application||'See the primary source for application instructions.';
+  const official=document.getElementById('job-official');official.href=job.official;official.textContent=job.officialLabel||'Open Primary Source';
   if(job.secondary){
     const second=document.createElement('a');second.className='btn secondary';second.target='_blank';second.rel='noopener';second.href=job.secondary;second.textContent=`Check ${job.secondarySourceName||'2nd Source'}`;official.insertAdjacentElement('afterend',second);
   }
   const applicationPanel=document.getElementById('job-application')?.closest('.job-detail-panel');
   if(applicationPanel){
-    const verify=document.createElement('section');verify.className='job-detail-panel';verify.innerHTML=`<p class="eyebrow">SOURCE VERIFICATION</p><h2>${esc(verification)}</h2><p><b>Primary check:</b> ${esc(job.primarySourceName||'Official/reputable source')}</p>${job.secondarySourceName?`<p><b>Independent check:</b> ${esc(job.secondarySourceName)}</p>`:''}<p><b>Last checked by MMGC:</b> 10 September 2026</p><div class="job-warning"><b>Social-media rule:</b> Facebook, WhatsApp and other social posts are treated as leads. MMGC does not label a social-media vacancy verified unless it can also be supported by an employer, recruitment platform or another credible current source.</div>`;applicationPanel.insertAdjacentElement('afterend',verify);
+    const verify=document.createElement('section');verify.className='job-detail-panel';
+    const discovered=job.discoveredVia?`<p><b>Discovered via:</b> ${esc(job.discoveredVia)}</p>`:'';
+    const secondSource=job.secondarySourceName?`<p><b>Independent check:</b> ${esc(job.secondarySourceName)}</p>`:'';
+    const verificationNote=job.verificationNote?`<div class="job-warning"><b>Verification note:</b> ${esc(job.verificationNote)}</div>`:'';
+    const deadlineNote=job.deadlineNote?`<p><b>Deadline note:</b> ${esc(job.deadlineNote)}</p>`:'';
+    verify.innerHTML=`<p class="eyebrow">SOURCE VERIFICATION</p><h2>${esc(verification)}</h2>${discovered}<p><b>Primary check:</b> ${esc(job.primarySourceName||'Official/reputable source')}</p>${secondSource}<p><b>Last checked by MMGC:</b> 10 September 2026</p>${deadlineNote}${verificationNote}<div class="job-warning"><b>Social-media rule:</b> Facebook and other social posts are discovery leads. MMGC only upgrades a listing to “Double verified” when a current employer/official channel and a second credible source support it. “Cross-checked” does not mean MMGC is the employer or guarantees the advert.</div>`;
+    applicationPanel.insertAdjacentElement('afterend',verify);
   }
   const calendar=document.getElementById('job-calendar');
-  const date=dl.toISOString().replace(/[-:]/g,'').replace('.000','');calendar.href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(job.title)}&dates=${date}/${date}&details=${encodeURIComponent('Verify and apply via official source: '+job.official)}`;
+  const date=dl.toISOString().replace(/[-:]/g,'').replace('.000','');calendar.href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(job.title)}&dates=${date}/${date}&details=${encodeURIComponent('Verify and apply via primary source: '+job.official)}`;
   document.getElementById('job-share').href=`https://wa.me/?text=${encodeURIComponent(`${job.title} — ${job.employer} — deadline ${format} — ${canonical.href}`)}`;
-  if(closed){document.getElementById('job-closed').innerHTML='<div class="closed-banner">This opportunity has passed its listed closing date. Check the official source before taking any action.</div>';}
+  if(closed){document.getElementById('job-closed').innerHTML='<div class="closed-banner">This opportunity has passed its listed closing date. Check the original source before taking any action.</div>';}
   if(job.type==='job'){
     const schema={'@context':'https://schema.org','@type':'JobPosting',title:job.title,description:job.summary,datePosted:(job.posted||'').slice(0,10),validThrough:job.deadline,hiringOrganization:{'@type':'Organization',name:job.employer},jobLocation:{'@type':'Place',address:{'@type':'PostalAddress',addressLocality:job.location,addressCountry:'LS'}},url:job.official};
     const ld=document.createElement('script');ld.type='application/ld+json';ld.textContent=JSON.stringify(schema);document.head.appendChild(ld);
