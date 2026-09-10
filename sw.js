@@ -1,5 +1,5 @@
-const CACHE='mmgc-platform-v3';
-const CORE=['/','/index.html','/opportunities.html','/tenders.html','/jobs.html','/job.html','/products.html','/stationery.html','/standard-services.html','/suppliers.html','/tender-calculator.html','/checklists.html','/styles.css','/mobile.css','/opportunities.css','/products.css','/assistant.css','/site-integration.js','/jobs-data.js','/jobs-social-data.js','/jobs.js','/job.js','/assets/mmgc-logo.png'];
+const CACHE='mmgc-platform-v4';
+const CORE=['/','/index.html','/opportunities.html','/tenders.html','/jobs.html','/job.html','/products.html','/stationery.html','/standard-services.html','/suppliers.html','/tender-calculator.html','/checklists.html','/styles.css','/mobile.css','/opportunities.css','/products.css','/assistant.css','/ai-bridge.css','/calculator-modern.css','/site-integration.js','/jobs-data.js','/jobs-social-data.js','/jobs.js','/job.js','/calculator.js','/procurement-data.js','/assets/mmgc-logo.png'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).catch(()=>{}));self.skipWaiting();});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim();});
 self.addEventListener('fetch',event=>{
