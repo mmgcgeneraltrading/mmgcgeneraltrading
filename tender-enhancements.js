@@ -1,3 +1,4 @@
+(()=>{const s=document.createElement('script');s.src='site-integration.js';s.defer=true;document.head.appendChild(s);})();
 document.addEventListener('DOMContentLoaded',()=>{
   const tenders=Array.isArray(window.MMGC_TENDERS)?window.MMGC_TENDERS:[];
   const now=new Date();
@@ -62,5 +63,4 @@ document.addEventListener('DOMContentLoaded',()=>{
   }
 
   if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
-  if(!document.querySelector('script[src="assistant.js"]')){const s=document.createElement('script');s.src='assistant.js';document.body.appendChild(s);}
 });
