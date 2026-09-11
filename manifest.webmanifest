@@ -12,7 +12,8 @@
   "theme_color": "#082b4c",
   "categories": ["business", "productivity", "utilities"],
   "icons": [
-    {"src":"/assets/mmgc-logo.png","sizes":"any","type":"image/png","purpose":"any maskable"}
+    {"src":"/assets/mmgc-app-icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"},
+    {"src":"/assets/mmgc-logo.png","sizes":"any","type":"image/png","purpose":"any"}
   ],
   "shortcuts": [
     {"name":"Available Tenders & RFQs","short_name":"Tenders","url":"/tenders.html"},
