@@ -1,4 +1,4 @@
-const CACHE='mmgc-platform-v11';
+const CACHE='mmgc-platform-v12';
 const CORE=['/','/index.html','/offline.html','/opportunities.html','/tenders.html','/jobs.html','/job.html','/products.html','/stationery.html','/standard-services.html','/suppliers.html','/tender-calculator.html','/checklists.html','/styles.css','/mobile.css','/opportunities.css','/products.css','/assistant.css','/pwa.css','/ai-bridge.css','/calculator-modern.css','/calculator-upload.css','/tender-intelligence.css','/site-integration.js','/pwa.js','/jobs-data.js','/jobs-social-data.js','/jobs.js','/job.js','/calculator.js','/tender-intelligence.js','/procurement-data.js','/source-links.js','/manifest.webmanifest','/assets/mmgc-logo.png','/assets/mmgc-app-icon.svg'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).catch(()=>{}));});
 self.addEventListener('message',event=>{if(event.data?.type==='SKIP_WAITING')self.skipWaiting();});
