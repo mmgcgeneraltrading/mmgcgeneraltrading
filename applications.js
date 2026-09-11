@@ -1,184 +1,27 @@
 (()=>{
-  const qs=(selector)=>document.querySelector(selector);
-  const esc=(value)=>String(value??'').replace(/[&<>"']/g,(m)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const clean=(value)=>String(value??'').trim();
-  const statusLabels={
-    received:'Received',
-    reviewing:'Reviewing',
-    cv_requested:'CV requested',
-    cv_ready:'CV ready',
-    letter_ready:'Letter ready',
-    print_packaging:'Print packaging',
-    ready_for_collection:'Ready for collection',
-    submitted:'Submitted',
-    completed:'Completed',
-    cancelled:'Cancelled'
-  };
-  const collectionLabels={
-    not_required:'Collection not required',
-    pending:'Collection pending',
-    ready:'Ready for collection',
-    collected:'Collected'
-  };
+  const qs=(s)=>document.querySelector(s);
+  const clean=(v)=>String(v??'').trim();
+  const esc=(v)=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[m]));
+  const statusLabels={received:'Received',reviewing:'Reviewing',cv_requested:'CV requested',cv_ready:'CV ready',letter_ready:'Letter ready',print_packaging:'Print packaging',ready_for_collection:'Ready for collection',submitted:'Submitted',completed:'Completed',cancelled:'Cancelled'};
+  const collectionLabels={not_required:'Collection not required',pending:'Collection pending',ready:'Ready for collection',collected:'Collected'};
   const docMap=new Map();
-  const setStatus=(el,message,type='')=>{
-    if(!el)return;
-    el.textContent=message;
-    el.hidden=!message;
-    el.className=`application-alert ${type}`.trim();
-  };
-  const formatDate=(value)=>{
-    if(!value)return 'Date not set';
-    const date=new Date(value);
-    return Number.isNaN(date.getTime())?'Date not set':date.toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'});
-  };
-  async function refreshAuth(){
-    const form=qs('#auth-form'),current=qs('#auth-current'),panel=qs('#dashboard-panel');
-    const session=await window.MMGCPlatform.getSession();
-    if(session?.user){
-      form.hidden=true;
-      current.hidden=false;
-      current.innerHTML=`<strong>Signed in as ${esc(session.user.email||'applicant')}</strong><span>Application records are loaded according to your account access.</span><button class="application-secondary" id="sign-out" type="button">Sign out</button>`;
-      panel.hidden=false;
-      await loadApplications();
-    }else{
-      form.hidden=false;
-      current.hidden=true;
-      panel.hidden=true;
-    }
-  }
-  async function signIn(){
-    const status=qs('#auth-status');
-    try{
-      const email=clean(qs('#auth-email')?.value),password=qs('#auth-password')?.value||'';
-      if(!email||!password)throw new Error('Email and password are required.');
-      await window.MMGCPlatform.signIn({email,password});
-      setStatus(status,'Signed in. Loading applications…','success');
-      await refreshAuth();
-    }catch(error){
-      setStatus(status,error.message||'Sign-in failed.','error');
-    }
-  }
-  function staffControls(app){
-    const statuses=Object.entries(statusLabels).map(([value,label])=>`<option value="${value}" ${app.status===value?'selected':''}>${label}</option>`).join('');
-    const collections=Object.entries(collectionLabels).map(([value,label])=>`<option value="${value}" ${app.collection_status===value?'selected':''}>${label}</option>`).join('');
-    return `<div class="staff-controls">
-      <label>Status<select data-status-select>${statuses}</select></label>
-      <label>Collection<select data-collection-select>${collections}</select></label>
-      <label>Internal note<textarea data-internal-notes rows="3" placeholder="Private MMGC note">${esc(app.internal_notes||'')}</textarea></label>
-      <button type="button" data-update-application="${esc(app.id)}">Update application</button>
-    </div>`;
-  }
-  function renderDocuments(app){
-    if(!app.documents?.length)return '<p class="application-file-note">No uploaded documents yet.</p>';
-    return `<div class="doc-list">${app.documents.map((doc)=>{
-      docMap.set(doc.id,doc);
-      const size=doc.file_size?` · ${(Number(doc.file_size)/1024/1024).toFixed(2)}MB`:'';
-      return `<button type="button" data-download-doc="${esc(doc.id)}">${esc(doc.file_name)} · ${esc(doc.document_type.replaceAll('_',' '))}${size}</button>`;
-    }).join('')}</div>`;
-  }
-  function renderGenerated(app){
-    if(!app.generated_documents?.length)return '<p class="application-file-note">No generated CV or letter draft saved yet.</p>';
-    return `<div class="generated-list">${app.generated_documents.map((doc)=>`<details class="generated-doc"><summary>${esc(doc.title)} · ${esc(doc.document_type.replaceAll('_',' '))}</summary><pre>${esc(doc.content)}</pre></details>`).join('')}</div>`;
-  }
-  function renderApplication(app,isStaff){
-    const collection=collectionLabels[app.collection_status]||app.collection_status||'Collection status not set';
-    return `<article class="app-card" data-app-id="${esc(app.id)}">
-      <div class="app-card-head">
-        <div>
-          <p class="eyebrow">${esc(app.reference_no||'MMGC application')}</p>
-          <h3>${esc(app.job_title)}</h3>
-          <div class="app-meta">
-            <span>${esc(app.employer||'Employer not specified')}</span>
-            <span>${esc(app.applicant_name)}</span>
-            <span>${formatDate(app.created_at)}</span>
-            <span>${esc(collection)}</span>
-          </div>
-        </div>
-        <span class="status-pill ${esc(app.status)}">${esc(statusLabels[app.status]||app.status)}</span>
-      </div>
-      <p>${esc(app.career_summary||app.public_notes||'Application support request saved for MMGC review.')}</p>
-      ${app.source_url?`<p><a href="${esc(app.source_url)}" target="_blank" rel="noopener">Open job source</a></p>`:''}
-      <h4>Uploaded documents</h4>
-      ${renderDocuments(app)}
-      <h4>Generated drafts</h4>
-      ${renderGenerated(app)}
-      ${app.shop_collection_required||app.hand_delivery_required?'<div class="application-alert">This file is marked for shop collection / hand-delivery support. MMGC should update it to “Ready for collection” when printed documents are prepared.</div>':''}
-      ${isStaff?staffControls(app):''}
-    </article>`;
-  }
-  async function loadApplications(){
-    const list=qs('#applications-list'),status=qs('#applications-status');
-    setStatus(status,'Loading applications…','');
-    list.innerHTML='';
-    try{
-      const role=await window.MMGCPlatform.currentStaffRole();
-      const apps=await window.MMGCPlatform.listApplications();
-      const isStaff=Boolean(role);
-      qs('#dashboard-title').textContent=isStaff?'MMGC applications dashboard':'My job applications';
-      qs('#dashboard-intro').textContent=isStaff?'Review applicant requests, uploaded documents, generated drafts, printing and collection status.':'Track CV support, application letters, printing and collection status.';
-      qs('#dashboard-mode').textContent=isStaff?`MMGC STAFF · ${role.toUpperCase()}`:'APPLICANT';
-      qs('#applications-heading').textContent=isStaff?'All application support requests':'My application support requests';
-      if(!apps.length){
-        list.innerHTML='<div class="empty-state"><b>No applications yet.</b><br>Start from a job post and submit an application support request.</div>';
-      }else{
-        docMap.clear();
-        list.innerHTML=apps.map((app)=>renderApplication(app,isStaff)).join('');
-      }
-      setStatus(status,apps.length?`${apps.length} application${apps.length===1?'':'s'} loaded.`:'','success');
-    }catch(error){
-      setStatus(status,error.message||'Applications could not be loaded.','error');
-    }
-  }
+  const setStatus=(el,msg,type='')=>{if(!el)return;el.textContent=msg;el.hidden=!msg;el.className=`application-alert ${type}`.trim()};
+  const formatDate=(value)=>{if(!value)return 'Date not set';const d=new Date(value);return Number.isNaN(d.getTime())?'Date not set':d.toLocaleString('en-GB',{dateStyle:'medium',timeStyle:'short'})};
+
+  async function refreshAuth(){const form=qs('#auth-form'),current=qs('#auth-current'),panel=qs('#dashboard-panel');const session=await window.MMGCPlatform.getSession();if(!session?.user){form.hidden=false;current.hidden=true;panel.hidden=true;return}form.hidden=true;current.hidden=false;const profile=await window.MMGCPlatform.getProfile().catch(()=>null);const label=profile?.account_kind==='company'?(profile.company_name||'Company account'):(profile?.full_name||profile?.phone||(!window.MMGCPlatform.isInternalPhoneEmail(session.user.email)?session.user.email:'Applicant'));current.innerHTML=`<strong>Signed in as ${esc(label)}</strong><span>${esc(profile?.phone||(!window.MMGCPlatform.isInternalPhoneEmail(session.user.email)?session.user.email:''))}</span><button class="application-secondary" id="sign-out" type="button">Sign out</button>`;panel.hidden=false;await loadApplications()}
+  async function phoneSignIn(){const phone=clean(qs('#auth-phone')?.value),pin=clean(qs('#auth-pin')?.value);if(!phone||!pin)throw new Error('Enter your phone number and PIN.');await window.MMGCPlatform.signInPhonePin({phone,pin})}
+  async function staffSignIn(){const email=clean(qs('#staff-email')?.value),password=qs('#staff-password')?.value||'';if(!email||!password)throw new Error('Enter staff email and password.');await window.MMGCPlatform.signInEmail({email,password})}
+
+  function staffControls(app){const statuses=Object.entries(statusLabels).map(([v,l])=>`<option value="${v}" ${app.status===v?'selected':''}>${l}</option>`).join(''),collections=Object.entries(collectionLabels).map(([v,l])=>`<option value="${v}" ${app.collection_status===v?'selected':''}>${l}</option>`).join('');return `<div class="staff-controls"><label>Status<select data-status-select>${statuses}</select></label><label>Collection<select data-collection-select>${collections}</select></label><label>Internal note<textarea data-internal-notes rows="3" placeholder="Private MMGC note">${esc(app.internal_notes||'')}</textarea></label><button type="button" data-update-application="${esc(app.id)}">Update application</button></div>`}
+  function renderDocuments(app){if(!app.documents?.length)return '<p class="application-file-note">No uploaded documents yet.</p>';return `<div class="doc-list">${app.documents.map(doc=>{docMap.set(doc.id,doc);const size=doc.file_size?` · ${(Number(doc.file_size)/1024/1024).toFixed(2)}MB`:'';return `<button type="button" data-download-doc="${esc(doc.id)}">${esc(doc.file_name)} · ${esc(doc.document_type.replaceAll('_',' '))}${size}</button>`}).join('')}</div>`}
+  function renderGenerated(app){if(!app.generated_documents?.length)return '<p class="application-file-note">No generated CV or letter draft saved yet.</p>';return `<div class="generated-list">${app.generated_documents.map(doc=>`<details class="generated-doc"><summary>${esc(doc.title)} · ${esc(doc.document_type.replaceAll('_',' '))}</summary><pre>${esc(doc.content)}</pre></details>`).join('')}</div>`}
+  function renderApplication(app,isStaff){const collection=collectionLabels[app.collection_status]||app.collection_status||'Collection status not set';return `<article class="app-card" data-app-id="${esc(app.id)}"><div class="app-card-head"><div><p class="eyebrow">${esc(app.reference_no||'MMGC application')}</p><h3>${esc(app.job_title)}</h3><div class="app-meta"><span>${esc(app.employer||'Employer not specified')}</span><span>${esc(app.applicant_name)}</span><span>${formatDate(app.created_at)}</span><span>${esc(collection)}</span></div></div><span class="status-pill ${esc(app.status)}">${esc(statusLabels[app.status]||app.status)}</span></div><p>${esc(app.career_summary||app.public_notes||'Application support request saved for MMGC review.')}</p>${app.source_url?`<p><a href="${esc(app.source_url)}" target="_blank" rel="noopener">Open job source</a></p>`:''}<h4>Uploaded documents</h4>${renderDocuments(app)}<h4>Generated drafts</h4>${renderGenerated(app)}${app.shop_collection_required||app.hand_delivery_required?'<div class="application-alert">This file is marked for shop collection / hand-delivery support. MMGC should update it to “Ready for collection” when printed documents are prepared.</div>':''}${isStaff?staffControls(app):''}</article>`}
+  async function loadApplications(){const list=qs('#applications-list'),status=qs('#applications-status');setStatus(status,'Loading applications…','');list.innerHTML='';try{const role=await window.MMGCPlatform.currentStaffRole(),apps=await window.MMGCPlatform.listApplications(),isStaff=Boolean(role);qs('#dashboard-title').textContent=isStaff?'MMGC applications dashboard':'My job applications';qs('#dashboard-intro').textContent=isStaff?'Review applicant requests, uploaded PDFs, generated drafts, printing and collection status.':'Track CV support, application letters, printing and collection status.';qs('#dashboard-mode').textContent=isStaff?`MMGC STAFF · ${String(role).toUpperCase()}`:'APPLICANT';qs('#applications-heading').textContent=isStaff?'All application support requests':'My application support requests';if(!apps.length)list.innerHTML='<div class="empty-state"><b>No applications yet.</b><br>Start from a job post and submit an application support request.</div>';else{docMap.clear();list.innerHTML=apps.map(app=>renderApplication(app,isStaff)).join('')}setStatus(status,apps.length?`${apps.length} application${apps.length===1?'':'s'} loaded.`:'','success')}catch(error){setStatus(status,error.message||'Applications could not be loaded.','error')}}
+
   document.addEventListener('DOMContentLoaded',async()=>{
-    const authError=window.MMGCPlatform.initAuthFromUrl();
-    if(authError)setStatus(qs('#auth-status'),authError,'error');
-    await refreshAuth();
-    qs('#dashboard-auth')?.addEventListener('click',async(event)=>{
-      const button=event.target.closest('[data-auth-action],#sign-out');
-      if(!button)return;
-      button.disabled=true;
-      try{
-        if(button.id==='sign-out'){
-          await window.MMGCPlatform.signOut();
-          await refreshAuth();
-          setStatus(qs('#auth-status'),'Signed out.','success');
-        }else{
-          await signIn();
-        }
-      }finally{
-        button.disabled=false;
-      }
-    });
+    const authError=window.MMGCPlatform.initAuthFromUrl();if(authError)setStatus(qs('#auth-status'),authError,'error');await refreshAuth();
+    qs('#dashboard-auth')?.addEventListener('click',async(event)=>{const button=event.target.closest('[data-auth-action],#sign-out,#staff-signin');if(!button)return;button.disabled=true;try{if(button.id==='sign-out'){await window.MMGCPlatform.signOut();await refreshAuth();setStatus(qs('#auth-status'),'Signed out.','success')}else if(button.id==='staff-signin'){await staffSignIn();setStatus(qs('#auth-status'),'Staff signed in.','success');await refreshAuth()}else{await phoneSignIn();setStatus(qs('#auth-status'),'Signed in.','success');await refreshAuth()}}catch(error){setStatus(qs('#auth-status'),error.message||'Sign-in failed.','error')}finally{button.disabled=false}});
     qs('#refresh-applications')?.addEventListener('click',loadApplications);
-    qs('#applications-list')?.addEventListener('click',async(event)=>{
-      const download=event.target.closest('[data-download-doc]');
-      const update=event.target.closest('[data-update-application]');
-      if(download){
-        const doc=docMap.get(download.dataset.downloadDoc);
-        if(!doc)return;
-        download.disabled=true;
-        try{await window.MMGCPlatform.downloadApplicationFile(doc.file_path,doc.file_name);}
-        catch(error){setStatus(qs('#applications-status'),error.message||'Download failed.','error');}
-        finally{download.disabled=false;}
-      }
-      if(update){
-        const card=update.closest('.app-card');
-        update.disabled=true;
-        try{
-          await window.MMGCPlatform.updateApplication(update.dataset.updateApplication,{
-            status:card.querySelector('[data-status-select]')?.value,
-            collection_status:card.querySelector('[data-collection-select]')?.value,
-            internal_notes:card.querySelector('[data-internal-notes]')?.value||''
-          });
-          setStatus(qs('#applications-status'),'Application updated.','success');
-          await loadApplications();
-        }catch(error){
-          setStatus(qs('#applications-status'),error.message||'Update failed.','error');
-        }finally{
-          update.disabled=false;
-        }
-      }
-    });
+    qs('#applications-list')?.addEventListener('click',async(event)=>{const download=event.target.closest('[data-download-doc]'),update=event.target.closest('[data-update-application]');if(download){const doc=docMap.get(download.dataset.downloadDoc);if(!doc)return;download.disabled=true;try{await window.MMGCPlatform.downloadApplicationFile(doc.file_path,doc.file_name)}catch(error){setStatus(qs('#applications-status'),error.message||'Download failed.','error')}finally{download.disabled=false}}if(update){const card=update.closest('.app-card');update.disabled=true;try{await window.MMGCPlatform.updateApplication(update.dataset.updateApplication,{status:card.querySelector('[data-status-select]')?.value,collection_status:card.querySelector('[data-collection-select]')?.value,internal_notes:card.querySelector('[data-internal-notes]')?.value||''});setStatus(qs('#applications-status'),'Application updated.','success');await loadApplications()}catch(error){setStatus(qs('#applications-status'),error.message||'Update failed.','error')}finally{update.disabled=false}}});
   });
 })();
