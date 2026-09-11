@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="mobile.css">
   <link rel="stylesheet" href="opportunities.css">
   <link rel="stylesheet" href="application-system.css">
+  <link rel="stylesheet" href="cv-extract.css">
 </head>
 <body class="opportunities-body application-body">
 <header>
@@ -90,8 +91,29 @@
       </aside>
 
       <form id="application-form" class="application-form">
+        <fieldset class="application-fieldset cv-autofill-fieldset">
+          <legend>1 · Upload CV to autofill</legend>
+          <div class="cv-autofill-panel">
+            <div>
+              <p class="eyebrow">CV AUTOFILL</p>
+              <h2>Start with the applicant's CV.</h2>
+              <p>Upload a CV as PDF, JPG, PNG or WebP. The website can extract the applicant's details and write them into the form spaces below. Review everything before submitting to MMGC.</p>
+            </div>
+            <div class="application-fields">
+              <label class="application-field-full">Existing CV as PDF or photo/image
+                <input id="cv-files" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif">
+              </label>
+            </div>
+            <div class="application-actions">
+              <button class="application-green" id="extract-cv-fill" type="button">Extract CV and fill form</button>
+            </div>
+            <div id="cv-extract-status" class="application-alert" hidden></div>
+            <div class="cv-extract-preview" id="cv-extract-preview" hidden></div>
+          </div>
+        </fieldset>
+
         <fieldset class="application-fieldset">
-          <legend>1 · Job or consultancy</legend>
+          <legend>2 · Job or consultancy</legend>
           <div class="application-fields">
             <label>Job title
               <input name="job_title" id="job-title-field" required placeholder="e.g. Field Enumerator">
@@ -120,7 +142,7 @@
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>2 · Applicant details</legend>
+          <legend>3 · Applicant details</legend>
           <div class="application-fields">
             <label>Applicant full name
               <input name="applicant_name" id="applicant-name-field" required autocomplete="name">
@@ -141,11 +163,8 @@
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>3 · Upload CV and documents</legend>
+          <legend>4 · Supporting documents</legend>
           <div class="application-fields">
-            <label class="application-field-full">Existing CV as PDF or photo/image
-              <input id="cv-files" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif">
-            </label>
             <label class="application-field-full">Certificates, ID copy, job-post screenshot or other support files
               <input id="supporting-files" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif">
             </label>
@@ -154,7 +173,7 @@
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>4 · Support needed</legend>
+          <legend>5 · Support needed</legend>
           <div class="application-check-grid">
             <label class="application-check"><input type="checkbox" id="wants-new-cv"> Create a new CV for me</label>
             <label class="application-check"><input type="checkbox" id="wants-cv-tailoring" checked> Make my CV relevant to this job</label>
@@ -166,7 +185,7 @@
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>5 · CV and letter details</legend>
+          <legend>6 · CV and letter details</legend>
           <div class="application-fields">
             <label class="application-field-full">Short career summary
               <textarea id="career-summary-field" rows="3" placeholder="Tell us what work you have done and what role you want."></textarea>
@@ -205,7 +224,7 @@
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>6 · Submit to MMGC</legend>
+          <legend>7 · Submit to MMGC</legend>
           <label class="application-check"><input type="checkbox" id="privacy-consent" required> I agree that MMGC may store my application details and uploaded documents to prepare CV, letter, printing and application-support services.</label>
           <div id="submit-status" class="application-alert" hidden></div>
           <div class="application-actions">

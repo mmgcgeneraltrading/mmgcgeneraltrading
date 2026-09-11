@@ -112,6 +112,179 @@
       advert_summary:clean(qs('#public-notes-field')?.value)||job?.summary||''
     };
   }
+  const EXTRACT_MAX_FILES=4;
+  const EXTRACT_MAX_BODY_CHARS=4200000;
+  const extractionMime=(file)=>{
+    const type=String(file.type||'').toLowerCase();
+    const name=String(file.name||'').toLowerCase();
+    if(type==='application/pdf'||name.endsWith('.pdf'))return 'application/pdf';
+    if(type==='image/jpeg'||name.endsWith('.jpg')||name.endsWith('.jpeg'))return 'image/jpeg';
+    if(type==='image/png'||name.endsWith('.png'))return 'image/png';
+    if(type==='image/webp'||name.endsWith('.webp'))return 'image/webp';
+    return type;
+  };
+  const fileToDataUrl=(file,mime)=>new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      const raw=String(reader.result||'');
+      resolve(mime?raw.replace(/^data:[^;]+;/,`data:${mime};`):raw);
+    };
+    reader.onerror=()=>reject(new Error('Could not read the selected CV file.'));
+    reader.readAsDataURL(file);
+  });
+  const loadImage=(file)=>new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
+    img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('This CV image could not be opened for extraction.'));};
+    img.src=url;
+  });
+  async function compressedImageDataUrl(file){
+    const img=await loadImage(file);
+    const maxSide=1900;
+    const largest=Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height,1);
+    const scale=Math.min(1,maxSide/largest);
+    const canvas=document.createElement('canvas');
+    canvas.width=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+    canvas.height=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+    const ctx=canvas.getContext('2d',{alpha:false});
+    ctx.fillStyle='#fff';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    const blob=await new Promise((resolve)=>canvas.toBlob(resolve,'image/jpeg',0.86));
+    if(!blob)throw new Error('Could not prepare the CV image for extraction.');
+    return fileToDataUrl(new File([blob],file.name.replace(/\.[^.]+$/,'.jpg'),{type:'image/jpeg'}),'image/jpeg');
+  }
+  async function prepareCvExtractionFiles(files){
+    const selected=[...files].slice(0,EXTRACT_MAX_FILES);
+    let totalChars=0;
+    const prepared=[];
+    for(const file of selected){
+      const mime=extractionMime(file);
+      if(!['application/pdf','image/jpeg','image/png','image/webp'].includes(mime)){
+        throw new Error('For automatic CV reading, please use PDF, JPG, PNG or WebP. HEIC files can still be uploaded for MMGC staff review.');
+      }
+      let dataUrl;
+      if(mime.startsWith('image/'))dataUrl=await compressedImageDataUrl(file);
+      else dataUrl=await fileToDataUrl(file,mime);
+      totalChars+=dataUrl.length;
+      if(totalChars>EXTRACT_MAX_BODY_CHARS){
+        throw new Error('The CV file is too large for instant extraction. Use a smaller PDF/photo, or upload it and MMGC staff will review it manually.');
+      }
+      prepared.push({
+        filename:file.name || 'cv-upload',
+        mime_type:mime,
+        data_url:dataUrl
+      });
+    }
+    return prepared;
+  }
+  function cvExtractionEndpoint(){
+    return location.hostname.endsWith('vercel.app')?'/api/cv-extract':'https://mmgcgeneraltrading-github-io.vercel.app/api/cv-extract';
+  }
+  const textValue=(value)=>{
+    if(Array.isArray(value))return value.map((item)=>clean(item)).filter(Boolean).join('\n');
+    return clean(value);
+  };
+  function normalizeExtracted(result){
+    const profile=result?.profile||result?.extracted?.profile||{};
+    return {
+      full_name:textValue(profile.full_name),
+      email:textValue(profile.email),
+      phone:textValue(profile.phone),
+      location:textValue(profile.location),
+      highest_qualification:textValue(profile.highest_qualification),
+      career_summary:textValue(profile.career_summary),
+      education_summary:textValue(profile.education_summary),
+      experience_summary:textValue(profile.experience_summary),
+      skills:textValue(profile.skills),
+      job_fit_summary:textValue(profile.job_fit_summary),
+      current_cv_text:textValue(profile.current_cv_text),
+      referees:textValue(profile.referees),
+      confidence:textValue(result?.confidence||profile.confidence),
+      warnings:Array.isArray(result?.warnings)?result.warnings.map(textValue).filter(Boolean):[],
+      missing:Array.isArray(result?.missing)?result.missing.map(textValue).filter(Boolean):[]
+    };
+  }
+  function fillExtractedCv(profile){
+    const pairs=[
+      ['#applicant-name-field',profile.full_name],
+      ['#phone-field',profile.phone],
+      ['#applicant-email-field',profile.email],
+      ['#location-field',profile.location],
+      ['#qualification-field',profile.highest_qualification],
+      ['#career-summary-field',profile.career_summary],
+      ['#education-field',profile.education_summary],
+      ['#experience-field',profile.experience_summary],
+      ['#skills-field',profile.skills],
+      ['#fit-field',profile.job_fit_summary],
+      ['#current-cv-field',profile.current_cv_text],
+      ['#referees-field',profile.referees]
+    ];
+    pairs.forEach(([selector,value])=>{if(clean(value))setValue(selector,value);});
+    if(profile.full_name&&!clean(qs('#auth-name')?.value))setValue('#auth-name',profile.full_name);
+    if(profile.phone&&!clean(qs('#auth-phone')?.value))setValue('#auth-phone',profile.phone);
+    if(profile.email&&!clean(qs('#auth-email')?.value))setValue('#auth-email',profile.email);
+  }
+  function renderCvExtractPreview(profile){
+    const preview=qs('#cv-extract-preview');
+    if(!preview)return;
+    const items=[
+      ['Name',profile.full_name],
+      ['Phone',profile.phone],
+      ['Email',profile.email],
+      ['Location',profile.location],
+      ['Qualification',profile.highest_qualification],
+      ['Skills',profile.skills],
+      ['Experience',profile.experience_summary],
+      ['Education',profile.education_summary]
+    ].filter(([,value])=>clean(value));
+    const detail=items.length?`<div class="cv-extract-grid">${items.map(([label,value])=>`<div class="cv-extract-item"><b>${esc(label)}</b><span>${esc(value)}</span></div>`).join('')}</div>`:'<p class="cv-extract-note">The CV was read, but very little structured information could be extracted. You can still type the missing details below.</p>';
+    const notes=[
+      profile.confidence?`<strong>Confidence:</strong> ${esc(profile.confidence)}`:'',
+      profile.missing?.length?`<strong>Missing:</strong> ${esc(profile.missing.join(', '))}`:'',
+      profile.warnings?.length?`<strong>Check:</strong> ${esc(profile.warnings.join(', '))}`:''
+    ].filter(Boolean).join('<br>');
+    preview.innerHTML=`<h3>CV details found</h3>${detail}${notes?`<p class="cv-extract-note">${notes}</p>`:''}`;
+    preview.hidden=false;
+  }
+  async function extractCvAndFill(){
+    const status=qs('#cv-extract-status'),button=qs('#extract-cv-fill');
+    const files=[...(qs('#cv-files')?.files||[])];
+    if(!files.length){
+      setStatus(status,'Choose a CV file first, then extract it.','error');
+      return;
+    }
+    button.disabled=true;
+    setStatus(status,files.length>EXTRACT_MAX_FILES?`Reading the first ${EXTRACT_MAX_FILES} CV files. All selected files will still be saved when you submit.`:'Reading CV and preparing autofill…','');
+    try{
+      const prepared=await prepareCvExtractionFiles(files);
+      const draftData=collectDraftData();
+      const response=await fetch(cvExtractionEndpoint(),{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          files:prepared,
+          job:{
+            title:draftData.job_title,
+            employer:draftData.employer,
+            advert_summary:draftData.advert_summary,
+            requirements:draftData.requirements
+          }
+        })
+      });
+      const result=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(result.error||'The CV could not be extracted right now.');
+      const profile=normalizeExtracted(result);
+      fillExtractedCv(profile);
+      renderCvExtractPreview(profile);
+      setStatus(status,'CV extracted and the form has been filled. Please review names, dates and contact details before submitting.','success');
+    }catch(error){
+      setStatus(status,error.message||'The CV could not be extracted. You can still upload it for MMGC staff review.','error');
+    }finally{
+      button.disabled=false;
+    }
+  }
   const listLines=(text)=>clean(text).split(/\n|;|,/).map((item)=>clean(item)).filter(Boolean).slice(0,10);
   function localDraft(data){
     const skills=listLines(data.skills);
@@ -347,6 +520,7 @@
     populateJob(job);
     bindAuth();
     await refreshAuth();
+    qs('#extract-cv-fill')?.addEventListener('click',extractCvAndFill);
     qs('#generate-drafts')?.addEventListener('click',createDrafts);
     qs('#application-form')?.addEventListener('submit',submitApplication);
     qs('#application-method')?.addEventListener('change',()=>{

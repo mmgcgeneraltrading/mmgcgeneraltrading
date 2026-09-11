@@ -1,0 +1,14 @@
+.cv-autofill-fieldset{border-color:#badfc9;background:linear-gradient(180deg,#fff,#f5fbf7)}
+.cv-autofill-panel{display:grid;gap:14px}
+.cv-autofill-panel h2{font-size:26px;margin:0 0 8px;color:#0b2f57}
+.cv-autofill-panel p{color:#5d7180;max-width:760px}
+.cv-extract-preview{border:1px solid #d9e6ee;border-radius:14px;background:#f8fbfc;padding:14px;display:grid;gap:10px}
+.cv-extract-preview[hidden]{display:none}
+.cv-extract-preview h3{font-size:18px;margin:0;color:#0b2f57}
+.cv-extract-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.cv-extract-item{border:1px solid #dde8ee;border-radius:11px;background:#fff;padding:10px}
+.cv-extract-item b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#137256;margin-bottom:5px}
+.cv-extract-item span{display:block;color:#243f55;white-space:pre-wrap}
+.cv-extract-note{font-size:13px;color:#607687}
+.cv-extract-note strong{color:#17384f}
+@media(max-width:640px){.cv-extract-grid{grid-template-columns:1fr}.cv-autofill-panel h2{font-size:22px}}

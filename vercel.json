@@ -5,6 +5,9 @@
     },
     "api/job-application-ai.js": {
       "maxDuration": 60
+    },
+    "api/cv-extract.js": {
+      "maxDuration": 60
     }
   },
   "headers": [
