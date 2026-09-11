@@ -2,6 +2,7 @@
   if(window.MMGC_SITE_INTEGRATION_LOADED)return;
   window.MMGC_SITE_INTEGRATION_LOADED=true;
   const load=(tag,attrs)=>{const key=attrs.src||attrs.href;if(!key)return;if(document.querySelector(`${tag}[src="${key}"],${tag}[href="${key}"]`))return;const el=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>el[k]=v);document.head.appendChild(el);};
+  const ensureManifest=()=>{if(document.querySelector('link[rel="manifest"]'))return;const m=document.createElement('link');m.rel='manifest';m.href='manifest.webmanifest';document.head.appendChild(m);};
   const init=()=>{
     const nav=document.querySelector('.main-nav');
     if(nav){
@@ -32,9 +33,11 @@
         localStorage.setItem('mmgcEnquiryBasket',JSON.stringify(basket));location.href='products.html#basket';
       });
     });
-    if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
   };
+  ensureManifest();
   load('link',{rel:'stylesheet',href:'assistant.css'});
+  load('link',{rel:'stylesheet',href:'pwa.css'});
+  load('script',{src:'pwa.js',defer:true});
   load('script',{src:'assistant.js',defer:true});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
