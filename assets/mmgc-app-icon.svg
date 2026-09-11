@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="MMGC General Trading app icon">
+  <rect width="512" height="512" rx="112" fill="#082b4c"/>
+  <circle cx="256" cy="246" r="178" fill="#ffffff"/>
+  <image href="mmgc-logo.png" x="106" y="106" width="300" height="280" preserveAspectRatio="xMidYMid meet"/>
+  <rect x="122" y="414" width="268" height="34" rx="17" fill="#11884a"/>
+</svg>
