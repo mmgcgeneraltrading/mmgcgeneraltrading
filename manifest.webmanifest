@@ -1,19 +1,24 @@
 {
+  "id": "/",
   "name": "MMGC General Trading",
   "short_name": "MMGC",
   "description": "MMGC General Trading opportunities hub, procurement desk, tender support, jobs, products, supplier marketplace and business services in Lesotho.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#0b2f57",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#eef6fa",
+  "theme_color": "#082b4c",
+  "categories": ["business", "productivity", "utilities"],
   "icons": [
-    {"src":"/assets/mmgc-logo.png","sizes":"any","type":"image/png","purpose":"any"}
+    {"src":"/assets/mmgc-logo.png","sizes":"any","type":"image/png","purpose":"any maskable"}
   ],
   "shortcuts": [
-    {"name":"Opportunities","short_name":"Opportunities","url":"/opportunities.html"},
-    {"name":"Tenders & RFQs","short_name":"Tenders","url":"/tenders.html"},
-    {"name":"Jobs","short_name":"Jobs","url":"/jobs.html"},
-    {"name":"Products","short_name":"Products","url":"/products.html"}
-  ]
+    {"name":"Available Tenders & RFQs","short_name":"Tenders","url":"/tenders.html"},
+    {"name":"Tender Cost Calculator","short_name":"Costing","url":"/tender-calculator.html"},
+    {"name":"Jobs & Consultancies","short_name":"Jobs","url":"/jobs.html"},
+    {"name":"Products & Supplies","short_name":"Products","url":"/products.html"}
+  ],
+  "launch_handler": {"client_mode":"navigate-existing"}
 }
