@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Apply for MMGC-listed jobs and consultancies with CV upload, CV tailoring, application-letter drafting, printing and hand-delivery support.">
+  <meta name="description" content="Apply for MMGC-listed jobs and consultancies with free PDF CV autofill, CV tailoring, application-letter drafting, printing and hand-delivery support.">
   <meta name="theme-color" content="#0b2f57">
   <meta property="og:title" content="Apply for a Job with MMGC Support">
-  <meta property="og:description" content="Upload your CV as PDF or image, ask MMGC to tailor it, generate an application letter and prepare hard copies for collection.">
+  <meta property="og:description" content="Upload one PDF document pack. MMGC can read the CV, tailor it to the advert, draft an application letter and prepare hard copies.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://mmgcgeneraltrading.github.io/assets/mmgc-logo.png">
   <link rel="canonical" href="https://mmgcgeneraltrading.github.io/job-apply.html">
@@ -41,13 +41,13 @@
     <div class="wrap application-hero-grid">
       <div>
         <p class="eyebrow light">MMGC APPLICATION DESK</p>
-        <h1>Apply with a CV, application letter and print-ready support.</h1>
-        <p>Start from a job post, upload your existing CV as a PDF or picture, and tell MMGC whether you need a new CV, a tailored CV, an application letter, printing, or collection for hand delivery.</p>
+        <h1>Upload the PDF. We help turn it into a stronger application.</h1>
+        <p>You do not need to type your whole CV again. Upload the PDF you already have — even when the same PDF also contains a letter or certificates. The free browser reader looks for CV information first, then fills the useful parts for you.</p>
       </div>
       <aside class="application-summary-card" id="job-summary-card">
         <p class="eyebrow">SELECTED OPPORTUNITY</p>
         <h2 id="summary-title">Choose or confirm the job below</h2>
-        <p id="summary-text">If you opened this page from a job card, the advert details will be filled in automatically.</p>
+        <p id="summary-text">If you opened this page from a job card, the advert details will be filled automatically.</p>
         <div class="application-summary-meta" id="summary-meta"></div>
       </aside>
     </div>
@@ -58,20 +58,36 @@
       <aside>
         <section class="application-card" id="auth-card">
           <p class="eyebrow">ACCOUNT</p>
-          <h2>Sign in to save your application</h2>
-          <p class="auth-note">Applicants need an account so files, CV drafts and application status can stay private. Email verification can be required by Supabase. WhatsApp/SMS verification can be activated later when MMGC has the provider credentials.</p>
+          <h2>Phone + PIN. That is all.</h2>
+          <p class="auth-note">No email verification is required for this simple account flow. Use the same phone number and PIN next time to see your applications.</p>
           <form id="auth-form">
-            <label>Full name
-              <input id="auth-name" autocomplete="name" placeholder="Your full name">
-            </label>
+            <div class="account-kind-switch" role="group" aria-label="Account type">
+              <label class="account-kind-choice"><input type="radio" name="account_kind" value="individual" checked> Individual</label>
+              <label class="account-kind-choice"><input type="radio" name="account_kind" value="company"> Company</label>
+            </div>
+            <div id="individual-account-fields">
+              <label>Full name
+                <input id="auth-name" autocomplete="name" placeholder="Your full name">
+              </label>
+            </div>
+            <div id="company-account-fields" hidden>
+              <label>Company name
+                <input id="auth-company-name" placeholder="Company / organisation name">
+              </label>
+              <label>Company type
+                <select id="auth-company-type">
+                  <option value="">Choose type</option>
+                  <option value="sole_trader">Sole trader</option>
+                  <option value="pty_ltd">(Pty) Ltd</option>
+                  <option value="ngo">NGO</option>
+                </select>
+              </label>
+            </div>
             <label>Phone / WhatsApp
-              <input id="auth-phone" autocomplete="tel" placeholder="+266 ...">
+              <input id="auth-phone" inputmode="tel" autocomplete="tel" placeholder="e.g. 58311808">
             </label>
-            <label>Email
-              <input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com">
-            </label>
-            <label>Password
-              <input id="auth-password" type="password" autocomplete="current-password" minlength="8" placeholder="At least 8 characters">
+            <label>PIN
+              <input id="auth-pin" type="password" inputmode="numeric" autocomplete="current-password" minlength="4" maxlength="6" pattern="[0-9]{4,6}" placeholder="4–6 digits">
             </label>
             <div class="application-actions">
               <button class="application-green" type="button" data-auth-action="signup">Create account</button>
@@ -83,37 +99,38 @@
         </section>
 
         <section class="application-card">
-          <p class="eyebrow">WHAT MMGC CAN DO</p>
-          <h2>Application support</h2>
-          <p>MMGC can review the advert, prepare a relevant CV, draft the application letter, print and package hard copies, and mark the file as ready for collection when the employer requires hand delivery.</p>
-          <div class="application-alert">Hiring decisions remain with the employer. Applicants must verify the official advert and deadline before submission.</div>
+          <p class="eyebrow">HOW IT HELPS</p>
+          <h2>Less typing, better targeting</h2>
+          <p>The site uses what is actually in the CV, compares it with the vacancy, and prioritises relevant skills. It does not invent employers, qualifications or dates.</p>
+          <div class="application-alert">Hiring decisions remain with the employer. Always check the official advert and deadline before submission.</div>
         </section>
       </aside>
 
       <form id="application-form" class="application-form">
         <fieldset class="application-fieldset cv-autofill-fieldset">
-          <legend>1 · Upload CV to autofill</legend>
+          <legend>1 · Upload PDF</legend>
           <div class="cv-autofill-panel">
             <div>
-              <p class="eyebrow">CV AUTOFILL</p>
-              <h2>Start with the applicant's CV.</h2>
-              <p>Upload a CV as PDF, JPG, PNG or WebP. The website can extract the applicant's details and write them into the form spaces below. Review everything before submitting to MMGC.</p>
+              <p class="eyebrow">FREE AUTOFILL</p>
+              <h2>One PDF can do most of the typing.</h2>
+              <p>Upload the applicant's PDF. If it contains a CV plus application letter, certificates or other pages, the reader tries to identify the CV pages and ignores the rest for autofill.</p>
             </div>
             <div class="application-fields">
-              <label class="application-field-full">Existing CV as PDF or photo/image
-                <input id="cv-files" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif">
+              <label class="application-field-full">CV / application document pack (PDF only)
+                <input id="cv-files" type="file" accept="application/pdf,.pdf">
               </label>
             </div>
             <div class="application-actions">
-              <button class="application-green" id="extract-cv-fill" type="button">Extract CV and fill form</button>
+              <button class="application-green" id="extract-cv-fill" type="button">Read PDF & fill for me</button>
             </div>
+            <p class="application-file-note">Free extraction happens in the browser first using PDF text reading and OCR for scanned pages. The PDF can still be submitted for MMGC staff review if autofill misses something.</p>
             <div id="cv-extract-status" class="application-alert" hidden></div>
             <div class="cv-extract-preview" id="cv-extract-preview" hidden></div>
           </div>
         </fieldset>
 
         <fieldset class="application-fieldset">
-          <legend>2 · Job or consultancy</legend>
+          <legend>2 · Job</legend>
           <div class="application-fields">
             <label>Job title
               <input name="job_title" id="job-title-field" required placeholder="e.g. Field Enumerator">
@@ -136,99 +153,95 @@
               <input name="source_url" id="source-url-field" placeholder="Paste the employer/source link or describe the post">
             </label>
             <label class="application-field-full">Advert summary / instructions
-              <textarea name="public_notes" id="public-notes-field" rows="3" placeholder="Paste key application instructions, required documents or anything MMGC should check."></textarea>
+              <textarea name="public_notes" id="public-notes-field" rows="3" placeholder="Paste requirements or application instructions here."></textarea>
             </label>
           </div>
         </fieldset>
 
-        <fieldset class="application-fieldset">
-          <legend>3 · Applicant details</legend>
+        <fieldset class="application-fieldset applicant-core-fieldset">
+          <legend>3 · Applicant</legend>
           <div class="application-fields">
-            <label>Applicant full name
+            <label>Full name
               <input name="applicant_name" id="applicant-name-field" required autocomplete="name">
             </label>
             <label>Phone / WhatsApp
               <input name="phone" id="phone-field" required autocomplete="tel">
             </label>
-            <label>Email
+            <label>Email <span class="optional-word">optional</span>
               <input name="applicant_email" id="applicant-email-field" type="email" autocomplete="email">
             </label>
-            <label>Location
+            <label>Location <span class="optional-word">optional</span>
               <input name="location" id="location-field" placeholder="Maseru, Leribe, Mafeteng...">
             </label>
-            <label class="application-field-full">Highest qualification
+            <label class="application-field-full">Highest qualification <span class="optional-word">autofilled when found</span>
               <input name="highest_qualification" id="qualification-field" placeholder="e.g. Diploma in Business Management">
             </label>
           </div>
         </fieldset>
 
-        <fieldset class="application-fieldset">
-          <legend>4 · Supporting documents</legend>
-          <div class="application-fields">
-            <label class="application-field-full">Certificates, ID copy, job-post screenshot or other support files
-              <input id="supporting-files" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif,.pdf,.jpg,.jpeg,.png,.webp,.heic,.heif">
-            </label>
+        <details class="application-progressive" id="cv-details-panel">
+          <summary><span>Improve the CV details</span><small>Usually autofilled — open only if you want to review or improve them</small></summary>
+          <div class="application-progressive-body">
+            <div class="application-fields">
+              <label class="application-field-full">Career summary
+                <textarea id="career-summary-field" rows="3" placeholder="What the applicant has done and the kind of role they are targeting."></textarea>
+              </label>
+              <label class="application-field-full">Education / training
+                <textarea id="education-field" rows="3" placeholder="Schools, certificates, diplomas, degrees and courses."></textarea>
+              </label>
+              <label class="application-field-full">Work experience
+                <textarea id="experience-field" rows="4" placeholder="Employers, positions, duties, achievements and dates."></textarea>
+              </label>
+              <label class="application-field-full">Relevant skills for this job
+                <textarea id="skills-field" rows="3" placeholder="The site prioritises skills supported by the CV and relevant to this vacancy."></textarea>
+              </label>
+              <label class="application-field-full">Why this applicant matches the job
+                <textarea id="fit-field" rows="3" placeholder="Evidence-based match to the advert — no invented experience."></textarea>
+              </label>
+              <label class="application-field-full">CV text found
+                <textarea id="current-cv-field" rows="5" placeholder="Useful CV text extracted from the PDF."></textarea>
+              </label>
+              <label class="application-field-full">Referees
+                <textarea id="referees-field" rows="2"></textarea>
+              </label>
+            </div>
+            <div class="application-actions">
+              <button class="application-gold" id="generate-drafts" type="button">Create CV & letter draft</button>
+            </div>
+            <div id="draft-status" class="application-alert" hidden></div>
+            <div class="draft-output" id="draft-output" hidden>
+              <label>CV draft<textarea id="cv-draft" rows="12"></textarea></label>
+              <label>Application letter draft<textarea id="letter-draft" rows="12"></textarea></label>
+            </div>
           </div>
-          <p class="application-file-note">Accepted: PDF, JPG, PNG, WebP, HEIC/HEIF. Maximum 15MB per file. Files are stored privately for the applicant and MMGC staff.</p>
-        </fieldset>
+        </details>
+
+        <details class="application-progressive">
+          <summary><span>Extra documents & MMGC services</span><small>Only open this if you need certificates, printing, a new CV or hand-delivery support</small></summary>
+          <div class="application-progressive-body">
+            <div class="application-fields">
+              <label class="application-field-full">Certificates / ID / other supporting document pack (PDF only)
+                <input id="supporting-files" type="file" multiple accept="application/pdf,.pdf">
+              </label>
+            </div>
+            <p class="application-file-note">PDF only · maximum 15MB per file.</p>
+            <div class="application-check-grid">
+              <label class="application-check"><input type="checkbox" id="wants-new-cv"> Create a new CV for me</label>
+              <label class="application-check"><input type="checkbox" id="wants-cv-tailoring" checked> Make my CV relevant to this job</label>
+              <label class="application-check"><input type="checkbox" id="wants-letter" checked> Draft an application letter</label>
+              <label class="application-check"><input type="checkbox" id="wants-printing"> Print and package hard copies</label>
+              <label class="application-check"><input type="checkbox" id="hand-delivery-required"> Employer says hand delivered</label>
+              <label class="application-check"><input type="checkbox" id="shop-collection-required"> I will collect from MMGC shop</label>
+            </div>
+          </div>
+        </details>
 
         <fieldset class="application-fieldset">
-          <legend>5 · Support needed</legend>
-          <div class="application-check-grid">
-            <label class="application-check"><input type="checkbox" id="wants-new-cv"> Create a new CV for me</label>
-            <label class="application-check"><input type="checkbox" id="wants-cv-tailoring" checked> Make my CV relevant to this job</label>
-            <label class="application-check"><input type="checkbox" id="wants-letter" checked> Draft an application letter</label>
-            <label class="application-check"><input type="checkbox" id="wants-printing"> Print and package hard copies</label>
-            <label class="application-check"><input type="checkbox" id="hand-delivery-required"> Employer says hand delivered</label>
-            <label class="application-check"><input type="checkbox" id="shop-collection-required"> I will collect from MMGC shop</label>
-          </div>
-        </fieldset>
-
-        <fieldset class="application-fieldset">
-          <legend>6 · CV and letter details</legend>
-          <div class="application-fields">
-            <label class="application-field-full">Short career summary
-              <textarea id="career-summary-field" rows="3" placeholder="Tell us what work you have done and what role you want."></textarea>
-            </label>
-            <label class="application-field-full">Education / training
-              <textarea id="education-field" rows="3" placeholder="Schools, certificates, diplomas, degrees, short courses."></textarea>
-            </label>
-            <label class="application-field-full">Work experience
-              <textarea id="experience-field" rows="4" placeholder="Employers, positions, duties, achievements, dates if you have them."></textarea>
-            </label>
-            <label class="application-field-full">Skills
-              <textarea id="skills-field" rows="3" placeholder="Computer skills, driving, customer service, languages, technical skills, fieldwork, etc."></textarea>
-            </label>
-            <label class="application-field-full">Why are you suitable for this job?
-              <textarea id="fit-field" rows="3" placeholder="Mention experience, strengths or requirements from the advert that match you."></textarea>
-            </label>
-            <label class="application-field-full">Paste current CV text if available
-              <textarea id="current-cv-field" rows="4" placeholder="Optional: paste text from your current CV so the draft can be tailored faster."></textarea>
-            </label>
-            <label class="application-field-full">Referees
-              <textarea id="referees-field" rows="2" placeholder="Names and contact details if you want them included."></textarea>
-            </label>
-          </div>
-          <div class="application-actions">
-            <button class="application-gold" id="generate-drafts" type="button">Create CV and letter draft</button>
-          </div>
-          <div id="draft-status" class="application-alert" hidden></div>
-          <div class="draft-output" id="draft-output" hidden>
-            <label>CV draft
-              <textarea id="cv-draft" rows="12"></textarea>
-            </label>
-            <label>Application letter draft
-              <textarea id="letter-draft" rows="12"></textarea>
-            </label>
-          </div>
-        </fieldset>
-
-        <fieldset class="application-fieldset">
-          <legend>7 · Submit to MMGC</legend>
-          <label class="application-check"><input type="checkbox" id="privacy-consent" required> I agree that MMGC may store my application details and uploaded documents to prepare CV, letter, printing and application-support services.</label>
+          <legend>4 · Submit</legend>
+          <label class="application-check"><input type="checkbox" id="privacy-consent" required> I agree that MMGC may store my application details and uploaded PDFs to provide application-support services.</label>
           <div id="submit-status" class="application-alert" hidden></div>
           <div class="application-actions">
-            <button class="application-primary" id="submit-application" type="submit">Submit application support request</button>
+            <button class="application-primary" id="submit-application" type="submit">Save my application</button>
             <a class="application-secondary" href="applications.html">View my applications</a>
           </div>
         </fieldset>
@@ -248,9 +261,12 @@
   </section>
 </main>
 <footer><div class="wrap footer-bottom">© 2026 MMGC General Trading · Job Application Desk</div></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="jobs-data.js"></script>
 <script src="jobs-social-data.js"></script>
 <script src="mmgc-supabase.js"></script>
+<script src="cv-browser-extract.js"></script>
 <script src="job-apply.js"></script>
 <script src="site-integration.js"></script>
 </body>
