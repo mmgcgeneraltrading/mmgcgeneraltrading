@@ -15,6 +15,9 @@
       let jobs=nav.querySelector('a[href="jobs.html"]');
       if(!jobs){jobs=document.createElement('a');jobs.href='jobs.html';jobs.textContent='Jobs & Consultancies';tender?.insertAdjacentElement('afterend',jobs);}
       else if(tender&&jobs.previousElementSibling!==tender)tender.insertAdjacentElement('afterend',jobs);
+      let applications=nav.querySelector('a[href="applications.html"]');
+      if(!applications){applications=document.createElement('a');applications.href='applications.html';applications.textContent='My Applications';jobs?.insertAdjacentElement('afterend',applications);}
+      else if(jobs&&applications.previousElementSibling!==jobs)jobs.insertAdjacentElement('afterend',applications);
       const current=(location.pathname.split('/').pop()||'index.html').toLowerCase();
       nav.querySelectorAll('a[href]').forEach(a=>{const target=(a.getAttribute('href')||'').split('#')[0].toLowerCase();if(target===current)a.setAttribute('aria-current','page');});
     }

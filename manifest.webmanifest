@@ -18,6 +18,7 @@
     {"name":"Available Tenders & RFQs","short_name":"Tenders","url":"/tenders.html"},
     {"name":"Tender Cost Calculator","short_name":"Costing","url":"/tender-calculator.html"},
     {"name":"Jobs & Consultancies","short_name":"Jobs","url":"/jobs.html"},
+    {"name":"Apply for a Job","short_name":"Apply","url":"/job-apply.html"},
     {"name":"Products & Supplies","short_name":"Products","url":"/products.html"}
   ],
   "launch_handler": {"client_mode":"navigate-existing"}

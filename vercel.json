@@ -2,6 +2,9 @@
   "functions": {
     "api/tender-ai.js": {
       "maxDuration": 60
+    },
+    "api/job-application-ai.js": {
+      "maxDuration": 60
     }
   },
   "headers": [

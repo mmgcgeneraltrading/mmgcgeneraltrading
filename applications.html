@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Track MMGC job applications, CV drafts, uploaded documents, application letters, printing and collection status.">
+  <meta name="theme-color" content="#0b2f57">
+  <meta property="og:title" content="MMGC Job Application Dashboard">
+  <meta property="og:description" content="Applicants can track job application support requests; MMGC staff can review applications, documents and collection readiness.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://mmgcgeneraltrading.github.io/assets/mmgc-logo.png">
+  <link rel="canonical" href="https://mmgcgeneraltrading.github.io/applications.html">
+  <title>My Applications | MMGC Application Desk</title>
+  <link rel="icon" href="assets/mmgc-logo.png">
+  <link rel="apple-touch-icon" href="assets/mmgc-logo.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile.css">
+  <link rel="stylesheet" href="opportunities.css">
+  <link rel="stylesheet" href="application-system.css">
+</head>
+<body class="opportunities-body application-body">
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="assets/mmgc-logo.png" alt="MMGC General Trading logo"><span><b>MMGC GENERAL TRADING</b><small>General Suppliers & Business Support</small></span></a>
+    <input class="nav-toggle" type="checkbox" id="nav-toggle">
+    <label class="nav-toggle-label" for="nav-toggle"><span></span><span></span><span></span></label>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="opportunities.html">Opportunities</a>
+      <a href="jobs.html">Jobs & Consultancies</a>
+      <a href="job-apply.html">Apply on Site</a>
+      <a href="applications.html">My Applications</a>
+      <a class="pill" href="standard-services.html">Service Prices</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="application-hero">
+    <div class="wrap application-hero-grid">
+      <div>
+        <p class="eyebrow light">MMGC APPLICATION DESK</p>
+        <h1 id="dashboard-title">My job applications</h1>
+        <p id="dashboard-intro">Track CV support, application-letter drafts, uploaded documents, printing and shop collection status.</p>
+      </div>
+      <aside class="application-summary-card">
+        <p class="eyebrow">STATUS FLOW</p>
+        <h2>From request to collection</h2>
+        <p>Received → Reviewing → CV / letter ready → Print packaging → Ready for collection → Submitted / completed.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="application-workspace">
+    <div class="wrap">
+      <section class="application-card" id="dashboard-auth">
+        <p class="eyebrow">ACCOUNT</p>
+        <h2>Sign in to view applications</h2>
+        <form id="auth-form">
+          <div class="application-fields">
+            <label>Email
+              <input id="auth-email" type="email" autocomplete="email" placeholder="you@example.com">
+            </label>
+            <label>Password
+              <input id="auth-password" type="password" autocomplete="current-password" placeholder="Your password">
+            </label>
+          </div>
+          <div class="application-actions">
+            <button class="application-secondary" type="button" data-auth-action="signin">Sign in</button>
+            <a class="application-green" href="job-apply.html">Create account while applying</a>
+          </div>
+        </form>
+        <div class="auth-current" id="auth-current" hidden></div>
+        <div id="auth-status" class="application-alert" hidden></div>
+      </section>
+
+      <section class="application-card" id="dashboard-panel" hidden>
+        <div class="dashboard-toolbar">
+          <div>
+            <p class="eyebrow" id="dashboard-mode">APPLICATIONS</p>
+            <h2 id="applications-heading">Applications</h2>
+          </div>
+          <div class="application-actions">
+            <button class="application-secondary" id="refresh-applications" type="button">Refresh</button>
+            <a class="application-green" href="job-apply.html">Start new application</a>
+          </div>
+        </div>
+        <div id="applications-status" class="application-alert" hidden></div>
+        <div id="applications-list" class="dashboard-list"></div>
+      </section>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap footer-bottom">© 2026 MMGC General Trading · Applications Dashboard</div></footer>
+<script src="mmgc-supabase.js"></script>
+<script src="applications.js"></script>
+<script src="site-integration.js"></script>
+</body>
+</html>

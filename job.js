@@ -27,6 +27,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('job-requirements').innerHTML=(job.requirements||['See the source for complete requirements.']).map(x=>`<li>${esc(x)}</li>`).join('');
   document.getElementById('job-application').textContent=job.application||'See the primary source for application instructions.';
   const official=document.getElementById('job-official');official.href=job.official;official.textContent=job.officialLabel||'Open Primary Source';
+  const side=document.querySelector('.job-detail-side');
+  if(side){
+    const apply=document.createElement('a');
+    apply.className='btn job-apply-now';
+    apply.href=`job-apply.html?id=${encodeURIComponent(job.id)}`;
+    apply.textContent='Apply on site / create CV & letter';
+    official.insertAdjacentElement('beforebegin',apply);
+  }
   if(job.secondary){
     const second=document.createElement('a');second.className='btn secondary';second.target='_blank';second.rel='noopener';second.href=job.secondary;second.textContent=`Check ${job.secondarySourceName||'2nd Source'}`;official.insertAdjacentElement('afterend',second);
   }
